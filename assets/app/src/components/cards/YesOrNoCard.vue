@@ -205,10 +205,6 @@ export default {
   }
 }
 
-.card-backside {
-  // transform: none !important;
-}
-
 .question-image-text {
   height: 10%;
   flex: 4;

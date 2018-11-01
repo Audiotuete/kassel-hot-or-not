@@ -55,16 +55,9 @@ const apolloClient = new ApolloClient({
   cache: app_cache, 
   link: ApolloLink.from([
     authLink,
-<<<<<<< HEAD
     new HttpLink({uri: `http://localhost:8000/graphql`})]
   ),
   connectToDevTools: false,
-=======
-    // new HttpLink({uri: 'http://localhost:8000/graphql'})
-    new HttpLink({uri: 'https://bwirken.org/graphql'})
-  ]),
-  connectToDevTools: true,
->>>>>>> e64ac5db3428fcf1146dfc7e65b77372c18a1a5c
 })
 
 export const apolloProvider = new VueApollo({

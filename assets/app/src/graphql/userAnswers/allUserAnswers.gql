@@ -1,0 +1,19 @@
+#import './__UserAnswerYesOrNoTypeFragment.gql'
+#import './__UserAnswerMultipleTypeFragment.gql'
+#import './__UserAnswerOpenTypeFragment.gql'
+
+
+query allUserAnswers {
+    allUserAnswers {
+      ... UserAnswerOpenType
+      ... UserAnswerMultipleType
+      ... UserAnswerYesOrNoType
+      # project {
+      #   projectName
+      # }
+      status
+      submittedBy {
+        username
+      }
+    }
+  }

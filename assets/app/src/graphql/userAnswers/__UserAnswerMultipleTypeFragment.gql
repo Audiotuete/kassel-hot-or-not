@@ -1,0 +1,10 @@
+fragment UserAnswerMultipleTypeType on UserAnswerMultipleTypeType{
+  question {
+    id
+    order
+    questionText
+  }
+  action1
+  action2
+  action3
+}

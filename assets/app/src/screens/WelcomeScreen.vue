@@ -1,20 +1,20 @@
 
 <template>
   <div>
-    <Whitespace/>
-    <Heading :level="1" v-show='!inputIsFocused'>
+    <BaseWhitespace/>
+    <BaseHeading :level="1" v-show='!inputIsFocused'>
       Deine Kontaktdaten für die Challenge
-    </Heading>
-    <Paragraph v-show='!inputIsFocused'>Deine Daten werden nicht an Dritte weitergegeben und nach der Challenge automatisch gelöscht!</Paragraph>
+    </BaseHeading>
+    <BaseParagraph v-show='!inputIsFocused'>Deine Daten werden nicht an Dritte weitergegeben und nach der Challenge automatisch gelöscht!</BaseParagraph>
     <button @click='register()' type='submit' class='register-user-button-send'>Account erstellen</button>
   </div>
 </template>
 
+
 <script>
-import Heading from '../components/atoms/Heading'
-import Paragraph from '../components/atoms/Paragraph'
-import FormLabel from '../components/atoms/FormLabel'
-import Whitespace from '../components/layout/Whitespace'
+import BaseHeading from '../components/atoms/BaseHeading'
+import BaseParagraph from '../components/atoms/BaseParagraph'
+import BaseWhitespace from '../components/atoms/BaseWhitespace'
 
 // GraphQL
 import CREATE_USER from '../graphql/users/createUser.gql'
@@ -23,10 +23,9 @@ import GET_TOKEN from '../graphql/auth/getToken.gql'
 export default {
   name: 'register-user-screen',
   components: {
-    Heading,
-    Paragraph,
-    FormLabel,  
-    Whitespace
+    BaseHeading,
+    BaseParagraph,
+    BaseWhitespace
   },
   data () {
     return {

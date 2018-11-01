@@ -1,17 +1,13 @@
-mutation createUser($challengeCode: String!, $username: String!, $email: String!, $password: String!) {
+mutation createUser($pollId: ID!, $username: String!, $password: String!) {
     createUser(
-      challengeCode: $challengeCode,
+      pollId: $pollId,
       username: $username,
-      email: $email,
       password: $password
     ) {
       user {
         username
-        currentProject {
-          projectName
-        }
-        currentChallenge {
-          context
+        currentPoll {
+          id
         }
         email
         password
