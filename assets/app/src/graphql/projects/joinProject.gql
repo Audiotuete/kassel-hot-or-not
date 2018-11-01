@@ -1,0 +1,11 @@
+mutation joinProject($projectCode: String!) {
+    joinProject(
+      projectCode: $projectCode
+    ) {
+      project {
+        projectName
+        projectDescription
+        projectCode
+      }
+    }
+  }

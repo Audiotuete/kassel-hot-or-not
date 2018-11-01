@@ -1,0 +1,15 @@
+mutation createProject($projectName: String!, $projectDescription: String!) {
+    createProject(
+      projectName: $projectName,
+      projectDescription: $projectDescription,
+    ) {
+      project {
+        projectName
+        projectDescription
+        projectCreator {
+          username
+        }
+        projectCode
+      }
+    }
+  }
