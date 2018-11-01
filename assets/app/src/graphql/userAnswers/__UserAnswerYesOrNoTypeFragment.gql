@@ -4,6 +4,7 @@ fragment UserAnswerYesOrNoType on UserAnswerYesOrNoType  {
     order
     questionText
   }
-  keywords
+  answerValue
+  answerNote
 }	
 

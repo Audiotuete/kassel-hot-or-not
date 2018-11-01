@@ -51,6 +51,7 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresNoPoll)) {
     getUser().then((data) => {
       if(data.currentPoll) {
+        console.log(data.currentPoll)
         next('/umfrage')
       } else {
         next()

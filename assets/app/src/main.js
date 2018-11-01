@@ -14,7 +14,6 @@ import App from './App.vue'
 import { router } from './routes'
 import './components/atoms/_globals'
 
-
 // Create fragment matcher for fragmented Queries (... on "Type")
 const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData

@@ -4,7 +4,5 @@ fragment UserAnswerOpenType on UserAnswerOpenType {
     order
     questionText
   }
-  hashtag1
-  hashtag2
-  hashtag3
+  answerText
 }

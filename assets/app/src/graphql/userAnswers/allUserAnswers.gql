@@ -2,7 +2,6 @@
 #import './__UserAnswerMultipleTypeFragment.gql'
 #import './__UserAnswerOpenTypeFragment.gql'
 
-
 query allUserAnswers {
     allUserAnswers {
       ... UserAnswerOpenType
@@ -12,8 +11,5 @@ query allUserAnswers {
       #   projectName
       # }
       status
-      submittedBy {
-        username
-      }
     }
   }
