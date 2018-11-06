@@ -10,12 +10,7 @@
   </div>
 </template>
 
-
 <script>
-import BaseHeading from '../components/atoms/BaseHeading'
-import BaseParagraph from '../components/atoms/BaseParagraph'
-import BaseWhitespace from '../components/atoms/BaseWhitespace'
-
 // GraphQL
 import CREATE_USER from '../graphql/users/createUser.gql'
 import GET_TOKEN from '../graphql/auth/getToken.gql'
@@ -23,9 +18,6 @@ import GET_TOKEN from '../graphql/auth/getToken.gql'
 export default {
   name: 'register-user-screen',
   components: {
-    BaseHeading,
-    BaseParagraph,
-    BaseWhitespace
   },
   data () {
     return {
@@ -33,7 +25,6 @@ export default {
       username: 'mastermind',
       email: '',
       password: 'asdjflkjasdlöfkj',
-      passwordRepeat: 'asdjflkjasdlöfkj'
     }
   },
   methods: {
@@ -44,7 +35,7 @@ export default {
       this.$apollo.mutate({
         mutation: CREATE_USER,
         variables: {
-          pollId: 8,
+          pollId: 9,
           username: theUsername,
           password: thePassword,
         }

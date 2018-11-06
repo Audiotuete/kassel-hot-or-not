@@ -1,28 +1,29 @@
-
 <template>
   <div>
     <vue-swing
       @throwoutup='skipQuestion()'
-      @throwoutleft='vote(answerValues.NO)'
+      @throwoutleft='throwOutLeft()'
       @throwoutdown='toggleCard()'
-      @throwoutright='vote(answerValues.YES)'
+      @throwoutright='throwOutRight()'
       @change='this.activeCard = document.querySelector(".cardselector")'
       :config='config'
       ref='vueswing'
       class='swing-wrapper'
     >
-      <div class='card card-not-dragable'>
-        <div v-show='!showCardBack' class='question-container'>
-          <div class='question-image-text'>
-          </div>
-        </div>
+      <div class='placeholder-card'>
       </div>
       <div
         v-for='card in cardStack'
         :class='[ "card-" + card.id]'
         :key='card.id'
-        >
-        <YesOrNoCard :card='card' :showCardBack='showCardBack'/>
+      >
+        <Card
+          @cardrequest='requestNewCard()'
+          @flip='toggleCard()'
+          ref='basecard'
+          :card='card' 
+          :showCardBack='showCardBack'
+        />
       </div>
     </vue-swing>
   </div>
@@ -30,7 +31,7 @@
 
 <script>
 import VueSwing from 'vue-swing'
-import YesOrNoCard from '../components/cards/YesOrNoCard'
+import Card from '../components/cards/Card'
 
 // GraphQL
 import ALL_USER_ANSWERS from '../graphql/userAnswers/allUserAnswers.gql'
@@ -39,19 +40,14 @@ import GET_TOKEN from '../graphql/auth/getToken.gql'
 
 export default {
   name: 'swiper-screen',
-  components: { VueSwing, YesOrNoCard },
+  components: { VueSwing, Card },
   data () {
     return {
-      allUserAnswers: {},
+      allUserAnswers: null,
       activeCard: '',
-      cardStack: [ 
-        {id: 0, value: 'A'}
-      ],
-      none: 'none',
-      answerValues: {'NO': 0, 'YES': 1, 'NOTE': 2},
-      isPlaying: false,
+      nextCardIndex: 0,
+      cardStack: [],
       showCardBack: false,
-      inputIsFocused: false,
     }
   },
   apollo: {
@@ -59,22 +55,18 @@ export default {
       query: ALL_USER_ANSWERS,
       fetchPolicy: 'cache-and-network',
       update(data) {
-        console.log(data)
-      },
+        this.allUserAnswers = data.allUserAnswers
+        this.cardStack.unshift(this.allUserAnswers[this.nextCardIndex])
+        this.nextCardIndex += 1
+        return data.allUserAnswers
+      }
     }
   },
   computed: {
-    // username() {
-    //   return 'Alfred'
-    // },
-    // password() {
-    //   return 'password'
-    // },
     config () {
       return {        
         allowedDirections: 
         [
-          // Skip Question on swipe UP
           // VueSwing.Direction.UP,
           VueSwing.Direction.DOWN,
           VueSwing.Direction.RIGHT,
@@ -92,41 +84,39 @@ export default {
       }
     }
   },
+
   methods: {
-    vote(value = -1) {
-      this.saveCardAnswer(value, null)
+    throwOutRight() {
+      this.$refs.basecard[0].throwOutRight()
     },
-    toggleCard() { 
+    throwOutLeft() {
+      this.$refs.basecard[0].throwOutLeft()
+    },
+    toggleCard() {
       let card = this.$refs.vueswing.stack.getCard(this.activeCard)
       card.throwIn(0, 0)
       this.showCardBack = !this.showCardBack
     },
-    makeNote(value = -1, note = null) {
-
-      this.saveCardAnswer(value, note)
-    },
     skipQuestion() {},
     requestNewCard() {
       // Query here
-      this.showCardBack = false
-      this.inputIsFocused = false;
-      this.cardStack.unshift({id: Math.floor(Math.random() * Math.floor(100)), value: Math.floor(Math.random() * Math.floor(20000))})
-    },
-
-    saveCardAnswer(value, note) {
-      // Mutation here
       if(this.cardStack.length == 1) {
         this.cardStack.pop()
-
       }
-      this.requestNewCard()
-      // console.log(this.cardStack)
-      // console.log(this.activeCard)
+      this.showCardBack = false
+      this.inputIsFocused = false;
+      
+      if (this.nextCardIndex >= this.allUserAnswers.length ) {
+        this.nextCardIndex = 0
+        console.log('route to endscreen')
+        this.cardStack.unshift(this.allUserAnswers[this.nextCardIndex])
+      } else {
+        this.cardStack.unshift(this.allUserAnswers[this.nextCardIndex])
+        this.nextCardIndex += 1
+      }
 
-    }
-  },
-  mounted() {
-    this.activeCard = document.querySelector('.card-' + this.cardStack[0].id)
+      // this.cardStack.unshift({id: Math.floor(Math.random() * Math.floor(100)), value: Math.floor(Math.random() * Math.floor(20000))})
+    },
   },
   updated() {
     this.activeCard = document.querySelector('.card-' + this.cardStack[0].id)
@@ -143,5 +133,20 @@ export default {
   padding-bottom: 150%;
 }
 
+.placeholder-card {
+z-index: 0;
+top: 11.5vh;
+position: absolute;
+height: 74vh;
+width: 88vw;
+display: flex;
+justify-content: center;
+align-items: center;  
+background-color: #fff;
+border-radius: 1.5vh;
+box-shadow: 0 0px 5px 0 rgba(0, 0, 0, 0.15);
+overflow: hidden;
+
+}
 
 </style>

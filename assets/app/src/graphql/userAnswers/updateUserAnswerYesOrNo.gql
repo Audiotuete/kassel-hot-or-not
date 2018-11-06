@@ -1,0 +1,13 @@
+mutation updateUserAnswerYesOrNo($questionId: ID!, $answerValue: Int!, $answerNote: String) { 
+    updateUserAnswerYesOrNo(
+      questionId: $questionId,
+      answerValue: $answerValue,
+      answerNote: $answerNote
+
+    ) {
+      firstTouched
+      lastTouched
+      countTouched
+      status
+    } 
+  }

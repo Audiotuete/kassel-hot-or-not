@@ -1,0 +1,12 @@
+mutation updateUserAnswerMultiple($questionId: ID!, $answerChoiceKey: Int!) { 
+    updateUserAnswerMultiple(
+      questionId: $questionId,
+      answerChoiceKey: $answerChoiceKey
+
+    ) {
+      firstTouched
+      lastTouched
+      countTouched
+      status
+    } 
+  }

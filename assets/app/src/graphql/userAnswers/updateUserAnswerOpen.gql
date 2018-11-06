@@ -1,0 +1,11 @@
+mutation updateUserAnswerOpen($questionId: ID!, $answerText: String!) { 
+    updateUserAnswerOpen(
+      questionId: $questionId,
+      answerText: $answerText
+    ) {
+      firstTouched
+      lastTouched
+      countTouched
+      status
+    } 
+  }

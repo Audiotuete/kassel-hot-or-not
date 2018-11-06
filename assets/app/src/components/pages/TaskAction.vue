@@ -21,7 +21,7 @@
 <script>
 
 // GraphQL
-import UPDATE_PROJECT_TASK_ACTION from '../../graphql/projectTasks/updateProjectTaskAction.gql'
+import UPDATE_PROJECT_TASK_ACTION from '../../graphql/projectTasks/updateUserAnswerMultiple.gql'
 
 export default {
   name: 'task-action',

@@ -5,24 +5,22 @@
       <div class='question-image-text'>
         <img src='https://source.unsplash.com/random/450x650' alt=''>
       </div>
-      <div class='choicebar'>
-        <div class='choice-container'>
-          {{card.question.id}} 
-          <button @click='vote(answerValues.NO)' class='choice-button'><i class='sl-icon icon-close'></i></button>
-          <button v-show='!showCardBack' @click='flipCard()' class='choice-button'><i class='sl-icon icon-note'></i></button>
-          <!-- <button v-show='showCardBack' @click='toggleCard()' class='choice-button' href='#'><i class='sl-icon icon-question'></i></button> -->
-          <button @click='vote(answerValues.YES)' class='choice-button'><i class='sl-icon icon-check'></i></button>
-        </div>
+      <div class='question-navigation'>
+        <button @click='flipCard()' class='nav-button'>Zur Auswahl</button>
       </div>
     </div>
     <!-- Back of Card where a note can be made an send (not dragable) -->
     <div v-show='showCardBack' class='backside-container'>
-        
       <div v-show='!inputIsFocused' class='backside-header'><button class='backside-header-icon' @click='flipCard()'><i class='sl-icon icon-arrow-left'></i></button>Anmerkungen zu:</div>
       <div v-show='!inputIsFocused' class='backside-question'>Sollten in der Kantine vegetarische Speisen angeboten werden?</div>
-      <textarea @focus='inputIsFocused = true' v-model=answerNote class='note-input' maxlength='250'/>
-      <div class='note-show-question' v-show='inputIsFocused' @click='inputIsFocused = false'><i class='sl-icon icon-arrow-up note-show-question-icon'></i></div>
-      <button @click='makeNote(answerValues.NOTE, answerNote)' class='note-button-send'>Senden</button>
+      <form @submit.prevent='makeChoice()'>
+        
+        <div v-for='(option, index) in options' :key=index :for=option>
+          <input type="radio" :id=option name="choice" :value=index v-model='currentChoice'>
+          {{option}}
+        </div> 
+        <button class='nav-button'>Senden</button>
+      </form>
     </div>
 
   </div>
@@ -32,56 +30,53 @@
 <script>
 
 // GraphQL
-import UPDATE_USER_ANSWER_YES_OR_NO from '../../graphql/userAnswers/updateUserAnswerYesOrNo.gql'
+import UPDATE_USER_ANSWER_MULTIPLE from '../../graphql/userAnswers/updateUserAnswerMultiple.gql'
 
 export default {
-  name: 'yes-or-no-card',
+  name: 'multiple-card',
   props: ['card', 'showCardBack'],
   data () {
     return {
-      answerValues: {'NO': 0, 'YES': 1, 'NOTE': 2},
-      answerNote: '',
+      currentChoice: '',
       inputIsFocused: false,
     }
   },
   computed: {
+    options() {
+      return JSON.parse(this.card.question.options.replace(/'/g, '"'))
+    }
   },
   methods: {
 
     throwOutRight() {
-      this.vote(this.answerValues.YES)
+      this.flipCard()
     },
     throwOutLeft() {
-      this.vote(this.answerValues.NO)
+      this.flipCard()
     },
 
-    vote(value = -1) {
-      this.saveCardAnswer(value, '')
-    },
-    makeNote(value = -1, note = '') {
-      this.saveCardAnswer(value, note)
+    makeChoice() {
+      this.saveCardAnswer(this.currentChoice)
     },
     flipCard() {
       this.$emit('flip')
     },
 
-    saveCardAnswer(value, note) {
+    saveCardAnswer(choice = -1) {
       const questionId = this.card.question.id
 
       console.log(questionId)
-      console.log(value)
-      console.log(note)
+      console.log(choice)
 
       this.$apollo.mutate({
-        mutation: UPDATE_USER_ANSWER_YES_OR_NO,
+        mutation: UPDATE_USER_ANSWER_MULTIPLE,
         variables: {
           questionId: questionId,
-          answerValue: value,
-          answerNote: note,
+          answerChoiceKey: choice,
         }
       }).then((data) => {
 
-        console.log('MUTATION: YesOrNo')
+        console.log('MUTATION: Multiple')
 
         this.$emit('cardrequest') 
       }).catch((error) => {
@@ -165,7 +160,7 @@ export default {
     box-shadow: 0 0 4px 0 rgba(0,0,0,0.15);
   }
 
-  .note-input {
+  .note-choice-button {
     pointer-events: all;
     display: flex;
     justify-content: flex-start;
@@ -182,30 +177,12 @@ export default {
     border-radius: 0.75vw;
   }
 
-  .note-button-send {
-    background: #4A90E2;
-    border: none;
-    outline: none;
-    width: 60vw;
-    height: 8vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: 1vh;
-    margin-top: -1.6rem;
-    box-shadow: 0 0 4px 0 rgba(0,0,0,0.25);
-  }
-
-
 .question-image-text {
   height: 10%;
   flex: 4;
 }
 
-.choicebar {
+.question-navigation {
   display: flex;
   width: 100%;
   flex: 1;
@@ -216,35 +193,21 @@ export default {
   // box-shadow: 0 0 6px 0 rgba(0,0,0,0.25);
 }
 
-.choice-container {
-  width: 100%;
+.nav-button {
+  background: #4A90E2;
+  border: none;
+  outline: none;
+  width: 60vw;
+  height: 8vh;
   display: flex;
-  padding-top: 1px;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
-  background: transparent;
-}
-
-.choice-text {
+  color: #fff;
   font-size: 1rem;
-  width: 30vw;
-  text-align: center;
-}
-
-.choice-button {
-
-  .icon-close {
-    font-size: 12.5vw;
-    color: rgba(208, 2, 26, .5)
-  }
-  .icon-note, .icon-question {
-    font-size: 12vw;
-    color: rgba(245, 165, 35, .6)
-  }
-  .icon-check {
-    font-size: 12.5vw;
-    color: rgba(125, 211, 33, 0.75)
-  }
+  font-weight: 600;
+  border-radius: 1vh;
+  margin-top: 1rem;
+  box-shadow: 0 0 4px 0 rgba(0,0,0,0.25);
 }
 
 

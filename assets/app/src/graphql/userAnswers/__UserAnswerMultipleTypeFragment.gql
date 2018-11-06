@@ -3,6 +3,7 @@ fragment UserAnswerMultipleType on UserAnswerMultipleType{
     id
     order
     questionText
+    options
   }
   answerChoiceKey
 }

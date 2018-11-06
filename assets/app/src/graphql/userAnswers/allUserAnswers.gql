@@ -3,13 +3,15 @@
 #import './__UserAnswerOpenTypeFragment.gql'
 
 query allUserAnswers {
+    
     allUserAnswers {
       ... UserAnswerOpenType
       ... UserAnswerMultipleType
       ... UserAnswerYesOrNoType
-      # project {
-      #   projectName
-      # }
       status
+      id
+      poll {
+        id
+      }
     }
   }
