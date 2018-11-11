@@ -4,7 +4,7 @@
     id='app'
     @click='enterFullscreen()'
   >
-    <!-- <router-view name='navbar'></router-view> -->
+    <!-- <router-view name='header'></router-view> -->
     <router-view class='main-container'></router-view>
     <!-- <router-view name='footer'></router-view> -->
     <!-- <div v-for='user in allUsers' :key=user.id>
@@ -16,7 +16,6 @@
 <script>
 import { dictionary } from './validation.conf.js'
 // import screenfull from 'screenfull'
-// import ALL_USERS from './graphql/users/allUsers.gql'
 
 export default {
 
@@ -27,11 +26,6 @@ export default {
       allUsers: []
     }
   },
-  // apollo: {
-  //   allUsers: {
-  //     query: ALL_USERS,
-  //   }
-  // },
   methods: {
     enterFullscreen () {
       // if (screenfull.enabled && screenfull.isFullscreen == false ) {
@@ -60,19 +54,23 @@ export default {
   padding: 0 3vw  5vh 3vw;
 }
 
+html, body {
+  position: relative;
+  overflow: hidden;
+}
+
 body {
   background-color: #ffffff;
   margin: 0;
-  overflow: hidden;
   height: 100vh;
   width: 100vw;
   font-family: 'Open Sans';
   font-size: 2rem;
 
   a {
-  color: #323232;
-  cursor: default;
-  text-decoration: none;
+    color: #323232;
+    cursor: default;
+    text-decoration: none;
   } 
 
   button {
@@ -88,13 +86,4 @@ body {
   }
 }
 
-iframe {
-  position: absolute;
-  pointer-events:none;
-  width: calc(95% * 1);
-  height: calc(97% * 1);
-  .ytp-button {
-    display: none;
-  }
-}
 </style>

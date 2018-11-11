@@ -4,10 +4,6 @@ import VueRouter from 'vue-router'
 import SwiperScreen from '../screens/SwiperScreen'
 import WelcomeScreen from '../screens/WelcomeScreen'
 
-import TheNavbar from '../components/layout/navbar/TheNavbar'
-// import TheFooter from '../components/layout/footer/TheFooter'
-
-
 // const RegisterUserScreen = () => import('../screens/RegisterUserScreen')
 // const EnterChallengeScreen = () => import('../screens/EnterChallengeScreen')
 // const LoginScreen = () => import('../screens/LoginScreen')
@@ -31,14 +27,12 @@ export const router = new VueRouter({
   // mode: 'history',
   routes: [
     { path: '/', 
-      components: { default: WelcomeScreen},
-      meta: { requiresNoPoll: true },
+      components: { default: WelcomeScreen, },
+      meta: { requiresNoPoll: true }
     },
     { path: '/umfrage',
-      name: 'umfrage', 
-      components: { default: SwiperScreen, header: TheNavbar},
+      components: { default: SwiperScreen},
       meta: { requiresAuth: true },
-      props: false,
     },
   
     // { path: '/projectsettings', components: {default: ProjectSettingsScreen, footer: TheFooter}}, 

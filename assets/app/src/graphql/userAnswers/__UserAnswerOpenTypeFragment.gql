@@ -2,6 +2,7 @@ fragment UserAnswerOpenType on UserAnswerOpenType {
   question {
     id
     order
+    questionImagelink
     questionText
   }
   answerText

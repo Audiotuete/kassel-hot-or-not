@@ -1,7 +1,7 @@
 
 <template>
   <div>
-    <YesOrNoCard
+    <CardYesOrNo
       class='card'
       v-if='card.__typename === "UserAnswerYesOrNoType"'
       @flip='flipCard()'
@@ -10,7 +10,7 @@
       :card = card
       :showCardBack = showCardBack
     />
-    <MultipleCard
+    <CardMultiple
       class='card'
       v-if='card.__typename === "UserAnswerMultipleType"'
       @flip='flipCard()'
@@ -19,21 +19,31 @@
       :card = card
       :showCardBack = showCardBack
     />
+    <CardOpen
+      class='card'
+      v-if='card.__typename === "UserAnswerOpenType"'
+      @flip='flipCard()'
+      @cardrequest='requestNewCard()'
+      ref='typecard'
+      :card = card
+      :showCardBack = showCardBack
+    />
   </div>
-
 </template>
 
 <script>
-import YesOrNoCard from './YesOrNoCard'
-import MultipleCard from './MultipleCard'
+import CardYesOrNo from '../pages/CardYesOrNo'
+import CardMultiple from '../pages/CardMultiple'
+import CardOpen from '../pages/CardOpen'
+
 
 // GraphQL
-// update YesOrNoCard
+// update CardYesOrNo
 
 export default {
   name: 'yes-or-no-card',
   props: ['card', 'showCardBack'],
-  components: { YesOrNoCard, MultipleCard },
+  components: { CardYesOrNo, CardMultiple, CardOpen },
   data () {
     return {}
   },
@@ -71,6 +81,5 @@ export default {
   box-shadow: 0 0px 5px 0 rgba(0, 0, 0, 0.15);
   overflow: hidden;
 }
-
 
 </style>

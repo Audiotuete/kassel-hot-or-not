@@ -2,25 +2,23 @@
 <template>
   <div>
     <div v-show='!showCardBack' class='question-container'>
-      <div class='question-image-text'>
-        <img src='https://source.unsplash.com/random/450x650' alt=''>
-      </div>
-      <div class='question-navigation'>
-        <button @click='flipCard()' class='nav-button'>Zur Auswahl</button>
+      <CardQuestionContainer :card=card />
+      <div class='choicebar'>
+        <div class='choice-container'>
+          <button @click='vote(answerValues.NO)' class='choice-button'><i class='sl-icon icon-close'></i></button>
+          <button v-show='!showCardBack' @click='flipCard()' class='choice-button'><i class='sl-icon icon-note'></i></button>
+          <!-- <button v-show='showCardBack' @click='toggleCard()' class='choice-button' href='#'><i class='sl-icon icon-question'></i></button> -->
+          <button @click='vote(answerValues.YES)' class='choice-button'><i class='sl-icon icon-check'></i></button>
+        </div>
       </div>
     </div>
     <!-- Back of Card where a note can be made an send (not dragable) -->
     <div v-show='showCardBack' class='backside-container'>
       <div v-show='!inputIsFocused' class='backside-header'><button class='backside-header-icon' @click='flipCard()'><i class='sl-icon icon-arrow-left'></i></button>Anmerkungen zu:</div>
-      <div v-show='!inputIsFocused' class='backside-question'>Sollten in der Kantine vegetarische Speisen angeboten werden?</div>
-      <form @submit.prevent='makeChoice()'>
-        
-        <div v-for='(option, index) in options' :key=index :for=option>
-          <input type="radio" :id=option name="choice" :value=index v-model='currentChoice'>
-          {{option}}
-        </div> 
-        <button class='nav-button'>Senden</button>
-      </form>
+      <div v-show='!inputIsFocused' class='backside-question'>{{card.question.questionText}}</div>
+      <textarea @focus='inputIsFocused = true' v-model=answerNote class='note-input' maxlength='250'/>
+      <div class='note-show-question' v-show='inputIsFocused' @click='inputIsFocused = false'><i class='sl-icon icon-arrow-up note-show-question-icon'></i></div>
+      <button @click='makeNote(answerValues.NOTE, answerNote)' class='note-button-send'>Senden</button>
     </div>
 
   </div>
@@ -29,55 +27,55 @@
 
 <script>
 
+import CardQuestionContainer from '../molecules/CardQuesitonContainer'
 // GraphQL
-import UPDATE_USER_ANSWER_MULTIPLE from '../../graphql/userAnswers/updateUserAnswerMultiple.gql'
+import UPDATE_USER_ANSWER_YES_OR_NO from '../../graphql/userAnswers/updateUserAnswerYesOrNo.gql'
 
 export default {
-  name: 'multiple-card',
+  name: 'card-yes-or-no',
   props: ['card', 'showCardBack'],
+  components: {
+    CardQuestionContainer
+  },
   data () {
     return {
-      currentChoice: '',
+      answerValues: {'NO': 0, 'YES': 1, 'NOTE': 2},
+      answerNote: this.card.answerNote,
       inputIsFocused: false,
     }
   },
   computed: {
-    options() {
-      return JSON.parse(this.card.question.options.replace(/'/g, '"'))
-    }
   },
   methods: {
 
     throwOutRight() {
-      this.flipCard()
+      this.vote(this.answerValues.YES)
     },
     throwOutLeft() {
-      this.flipCard()
+      this.vote(this.answerValues.NO)
     },
 
-    makeChoice() {
-      this.saveCardAnswer(this.currentChoice)
+    vote(value = -1) {
+      this.saveCardAnswer(value, '')
+    },
+    makeNote(value = -1, note = '') {
+      this.saveCardAnswer(value, note)
     },
     flipCard() {
       this.$emit('flip')
     },
 
-    saveCardAnswer(choice = -1) {
+    saveCardAnswer(value, note) {
       const questionId = this.card.question.id
 
-      console.log(questionId)
-      console.log(choice)
-
       this.$apollo.mutate({
-        mutation: UPDATE_USER_ANSWER_MULTIPLE,
+        mutation: UPDATE_USER_ANSWER_YES_OR_NO,
         variables: {
           questionId: questionId,
-          answerChoiceKey: choice,
+          answerValue: value,
+          answerNote: note,
         }
       }).then((data) => {
-
-        console.log('MUTATION: Multiple')
-
         this.$emit('cardrequest') 
       }).catch((error) => {
         // Error
@@ -160,7 +158,7 @@ export default {
     box-shadow: 0 0 4px 0 rgba(0,0,0,0.15);
   }
 
-  .note-choice-button {
+  .note-input {
     pointer-events: all;
     display: flex;
     justify-content: flex-start;
@@ -177,12 +175,30 @@ export default {
     border-radius: 0.75vw;
   }
 
+  .note-button-send {
+    background: #4A90E2;
+    border: none;
+    outline: none;
+    width: 60vw;
+    height: 8vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 1vh;
+    margin-top: -1.6rem;
+    box-shadow: 0 0 4px 0 rgba(0,0,0,0.25);
+  }
+
+
 .question-image-text {
   height: 10%;
   flex: 4;
 }
 
-.question-navigation {
+.choicebar {
   display: flex;
   width: 100%;
   flex: 1;
@@ -193,21 +209,35 @@ export default {
   // box-shadow: 0 0 6px 0 rgba(0,0,0,0.25);
 }
 
-.nav-button {
-  background: #4A90E2;
-  border: none;
-  outline: none;
-  width: 60vw;
-  height: 8vh;
+.choice-container {
+  width: 100%;
   display: flex;
-  justify-content: center;
+  padding-top: 1px;
+  justify-content: space-around;
   align-items: center;
-  color: #fff;
+  background: transparent;
+}
+
+.choice-text {
   font-size: 1rem;
-  font-weight: 600;
-  border-radius: 1vh;
-  margin-top: 1rem;
-  box-shadow: 0 0 4px 0 rgba(0,0,0,0.25);
+  width: 30vw;
+  text-align: center;
+}
+
+.choice-button {
+
+  .icon-close {
+    font-size: 12.5vw;
+    color: rgba(208, 2, 26, .5)
+  }
+  .icon-note, .icon-question {
+    font-size: 12vw;
+    color: rgba(245, 165, 35, .6)
+  }
+  .icon-check {
+    font-size: 12.5vw;
+    color: rgba(125, 211, 33, 0.75)
+  }
 }
 
 

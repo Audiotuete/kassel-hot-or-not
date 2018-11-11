@@ -1,24 +1,31 @@
 <template>
   <div class='navbar'>
     <div class='menu-container'>
-      <router-link  to='/'><i class='fa fa-cog'></i></router-link>
-      <router-link to='/'><i class='fa fa-stack-exchange'></i></router-link>
-      <router-link to='/'><i class='fa fa-book'></i></router-link>
+      <button 
+        v-for='(userAnswer, index) in allUserAnswers' 
+        :key=userAnswer.id
+        @click='navigateToCard(userAnswer, index)'
+      >
+        <i 
+        :class="{'fa fa-circle': true, 'question-answered': userAnswer.status, 'active': userAnswer.id === activeCardId }"></i></button>
     </div>
   </div>
 </template>
 
 <script>
-import screenfull from 'screenfull'
 
 export default {
+  name: 'navbar',
+  props: ['allUserAnswers', 'activeCardId'],
   data () {
     return {
 
     }
   },
   methods: {
-
+    navigateToCard(userAnswer, index) {
+      this.$emit('navigate', index)
+    }
   }
 }
 </script>
@@ -29,7 +36,7 @@ export default {
   display: flex;
   justify-content: center;
   position: absolute;
-  height: 10vh;
+  height: 7vh;
   width: 100%;
   background: rgba(255,255,255,1);
   box-shadow: 0 0 4px 0 rgba(0,0,0,0.25);
@@ -40,20 +47,31 @@ export default {
   padding-top: 1px;
   justify-content: space-around;
   align-items: center;
+  line-height: 0;
 }
 
 .fa {
-  color: rgb(181, 181, 181);
-  font-size: 7vw;
-
-  &.fa-stack-exchange {
-    font-size: 8vw;
-    color: #7ED321
-  }
-
-  &:active :hover {
-    color: green;
-  }
+  color: #E2E2E2;
+  font-size: 0.5rem;
 }
+
+// .fa:hover {
+//   color: #4A90E2;
+// }
+
+.question-answered {
+  color: #7ED321
+}
+
+.active {
+  color: #4A90E2;
+  font-size: 0.75rem;
+  padding-top: 3px;
+}
+
+
+
+
+
 
 </style>

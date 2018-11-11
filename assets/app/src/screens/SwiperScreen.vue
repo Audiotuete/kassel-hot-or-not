@@ -1,20 +1,21 @@
 <template>
   <div>
+    <div v-if='this.$apollo.loading' class="loading"></div>
+    <TheNavbar @navigate='goToCard($event)' :allUserAnswers=allUserAnswers :activeCardId=activeCardId />
     <vue-swing
       @throwoutup='skipQuestion()'
       @throwoutleft='throwOutLeft()'
       @throwoutdown='toggleCard()'
       @throwoutright='throwOutRight()'
-      @change='this.activeCard = document.querySelector(".cardselector")'
+      @change='this.activeCardDomElement = document.querySelector(".cardselector")'
       :config='config'
       ref='vueswing'
       class='swing-wrapper'
     >
-      <div class='placeholder-card'>
-      </div>
+      <div class='placeholder-card'></div>
       <div
         v-for='card in cardStack'
-        :class='[ "card-" + card.id]'
+        :class='["card-" + card.id]'
         :key='card.id'
       >
         <Card
@@ -31,7 +32,9 @@
 
 <script>
 import VueSwing from 'vue-swing'
-import Card from '../components/cards/Card'
+
+import TheNavbar from '../components/layout/navbar/TheNavbar'
+import Card from '../components/templates/Card'
 
 // GraphQL
 import ALL_USER_ANSWERS from '../graphql/userAnswers/allUserAnswers.gql'
@@ -40,21 +43,25 @@ import GET_TOKEN from '../graphql/auth/getToken.gql'
 
 export default {
   name: 'swiper-screen',
-  components: { VueSwing, Card },
+  components: { VueSwing, TheNavbar, Card },
   data () {
     return {
       allUserAnswers: null,
-      activeCard: '',
+      activeCardDomElement: '',
       nextCardIndex: 0,
-      cardStack: [],
+      cardStack: [{id: 'prevent-undefined-error'}],
       showCardBack: false,
     }
   },
   apollo: {
     allUserAnswers: {
       query: ALL_USER_ANSWERS,
-      fetchPolicy: 'cache-and-network',
+      fetchPolicy: 'network-only',
       update(data) {
+        this.cardStack = []
+        this.showCardBack = false
+        this.inputIsFocused = false
+        // this.nextCardIndex = 0
         this.allUserAnswers = data.allUserAnswers
         this.cardStack.unshift(this.allUserAnswers[this.nextCardIndex])
         this.nextCardIndex += 1
@@ -63,16 +70,18 @@ export default {
     }
   },
   computed: {
+    activeCardId() {
+      return this.cardStack[0].id
+    },
     config () {
       return {        
         allowedDirections: 
         [
-          // VueSwing.Direction.UP,
+          VueSwing.Direction.UP,
           VueSwing.Direction.DOWN,
           VueSwing.Direction.RIGHT,
           VueSwing.Direction.LEFT,
-        ]
-        ,
+        ],
         minThrowOutDistance: 1000,
         maxThrowOutDistance: 5000,
         throwOutConfidence: (xOffset, yOffset, element) => {
@@ -84,7 +93,6 @@ export default {
       }
     }
   },
-
   methods: {
     throwOutRight() {
       this.$refs.basecard[0].throwOutRight()
@@ -93,33 +101,37 @@ export default {
       this.$refs.basecard[0].throwOutLeft()
     },
     toggleCard() {
-      let card = this.$refs.vueswing.stack.getCard(this.activeCard)
+      let card = this.$refs.vueswing.stack.getCard(this.activeCardDomElement)
       card.throwIn(0, 0)
       this.showCardBack = !this.showCardBack
     },
-    skipQuestion() {},
-    requestNewCard() {
-      // Query here
-      if(this.cardStack.length == 1) {
-        this.cardStack.pop()
+    skipQuestion() {
+      if (this.nextCardIndex >= this.allUserAnswers.length ) {
+        this.nextCardIndex = 0 
       }
-      this.showCardBack = false
-      this.inputIsFocused = false;
-      
+      this.$apollo.queries.allUserAnswers.refetch()
+    },
+    requestNewCard() {
+
       if (this.nextCardIndex >= this.allUserAnswers.length ) {
         this.nextCardIndex = 0
-        console.log('route to endscreen')
-        this.cardStack.unshift(this.allUserAnswers[this.nextCardIndex])
-      } else {
-        this.cardStack.unshift(this.allUserAnswers[this.nextCardIndex])
-        this.nextCardIndex += 1
-      }
+        this.$apollo.queries.allUserAnswers.refetch()
 
-      // this.cardStack.unshift({id: Math.floor(Math.random() * Math.floor(100)), value: Math.floor(Math.random() * Math.floor(20000))})
+      } else {
+        this.$apollo.queries.allUserAnswers.refetch()
+      }
+ 
     },
+    goToCard(index) {
+      this.cardStack = []
+      this.cardStack.unshift(this.allUserAnswers[index])
+      this.nextCardIndex = index + 1
+    }
   },
   updated() {
-    this.activeCard = document.querySelector('.card-' + this.cardStack[0].id)
+    if (this.cardStack) {
+      this.activeCardDomElement = document.querySelector('.card-' + this.cardStack[0].id)
+    }
   },
 }
 </script>
@@ -134,19 +146,29 @@ export default {
 }
 
 .placeholder-card {
-z-index: 0;
-top: 11.5vh;
-position: absolute;
-height: 74vh;
-width: 88vw;
-display: flex;
-justify-content: center;
-align-items: center;  
-background-color: #fff;
-border-radius: 1.5vh;
-box-shadow: 0 0px 5px 0 rgba(0, 0, 0, 0.15);
-overflow: hidden;
-
+  z-index: 0;
+  top: 11.5vh;
+  position: absolute;
+  height: 74vh;
+  width: 88vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+  background-color: #fff;
+  border-radius: 1.5vh;
+  box-shadow: 0 0px 5px 0 rgba(0, 0, 0, 0.15);
+  overflow: hidden;
 }
+
+.loading {
+  top: 0;
+  position: absolute;
+  z-index: 1000;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+
 
 </style>

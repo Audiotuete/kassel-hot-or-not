@@ -2,6 +2,7 @@ fragment UserAnswerYesOrNoType on UserAnswerYesOrNoType  {
   question {
     id
     order
+    questionImagelink
     questionText
   }
   answerValue
