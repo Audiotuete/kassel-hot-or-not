@@ -51,7 +51,7 @@ router.beforeEach((to, from, next) => {
       }
     })
   } else if (to.matched.some(record => record.meta.requiresAuth)) {
-    if(!localStorage.getItem('YXnk}cg8N{KUSx?')) {
+    if(!localStorage.getItem(process.env.TOKEN_KEY)) {
       next('/')
     } else {
       next()

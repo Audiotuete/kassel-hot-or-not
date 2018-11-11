@@ -40,7 +40,7 @@ const app_cache = new InMemoryCache({ fragmentMatcher })
 
 // Send JWT from local storage with every request
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('YXnk}cg8N{KUSx?')
+  const token = localStorage.getItem(process.env.TOKEN_KEY)
   return {
     headers: {
       ...headers,

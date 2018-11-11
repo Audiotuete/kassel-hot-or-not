@@ -22,48 +22,39 @@ export default {
   data () {
     return {
       inputIsFocused: false,
-      username: 'mastermind',
       email: '',
-      password: 'asdjflkjasdlöfkj',
     }
   },
   methods: {
     register() {
-      const theUsername = this.username
-      const thePassword = this.password
+      // const theUsername = navigator.appVersion
+      // const thePassword = navigator.appVersion
       
       this.$apollo.mutate({
         mutation: CREATE_USER,
         variables: {
           pollId: 9,
-          username: theUsername,
-          password: thePassword,
         }
       }).then((data) => {
-        console.log('User created')
-
-        this.login()
+        this.login(data.data.createUser.user.username)
 
       }).catch((error) => {
         // Error
         console.error(error)
       })
     },
-    login() {
-      const theUsername = this.username
-      const thePassword = this.password
-      
+    login(username) {
       this.$apollo.mutate({
         mutation: GET_TOKEN,
         variables: {
-          username: theUsername,
-          password: thePassword
+          username: username,
+          password: process.env.USER_PASSWORD
         }
       }).then((data) => {
         // Result
         const token = data.data.tokenAuth.token
-        localStorage.setItem('YXnk}cg8N{KUSx?', token)
-        if (localStorage.getItem('YXnk}cg8N{KUSx?')) {
+        localStorage.setItem(process.env.TOKEN_KEY, token)
+        if (localStorage.getItem(process.env.TOKEN_KEY)) {
           this.$router.push('/umfrage')
         }
       }).catch((error) => {

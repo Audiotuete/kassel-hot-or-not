@@ -1,16 +1,12 @@
-mutation createUser($pollId: ID!, $username: String!, $password: String!) {
+mutation createUser($pollId: ID!) {
     createUser(
       pollId: $pollId,
-      username: $username,
-      password: $password
     ) {
       user {
         username
         currentPoll {
           id
         }
-        email
-        password
       }
     }
   }
