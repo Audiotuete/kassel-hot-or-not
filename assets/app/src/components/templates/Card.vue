@@ -80,6 +80,7 @@ export default {
   border-radius: 1.5vh;
   box-shadow: 0 0px 5px 0 rgba(0, 0, 0, 0.15);
   overflow: hidden;
+
 }
 
 </style>

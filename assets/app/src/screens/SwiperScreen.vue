@@ -13,19 +13,16 @@
       class='swing-wrapper'
     >
       <div class='placeholder-card'></div>
-      <div
-        v-for='card in cardStack'
-        :class='["card-" + card.id]'
-        :key='card.id'
-      >
         <Card
+          v-for='card in cardStack'
+          :class='["card-" + card.question.id ]'
+          :key='card.question.id'
           @cardrequest='requestNewCard()'
           @flip='toggleCard()'
           ref='basecard'
           :card='card' 
           :showCardBack='showCardBack'
         />
-      </div>
     </vue-swing>
   </div>
 </template>
@@ -71,7 +68,7 @@ export default {
   },
   computed: {
     activeCardId() {
-      return this.cardStack[0].id
+      return this.cardStack[0].question.id
     },
     config () {
       return {        
@@ -123,6 +120,8 @@ export default {
  
     },
     goToCard(index) {
+      this.showCardBack = false
+
       this.cardStack = []
       this.cardStack.unshift(this.allUserAnswers[index])
       this.nextCardIndex = index + 1
@@ -130,7 +129,7 @@ export default {
   },
   updated() {
     if (this.cardStack) {
-      this.activeCardDomElement = document.querySelector('.card-' + this.cardStack[0].id)
+      this.activeCardDomElement = document.querySelector('.card-' + this.cardStack[0].question.id)
     }
   },
 }
@@ -168,7 +167,5 @@ export default {
   height: 100vh;
   background: rgba(0, 0, 0, 0.5);
 }
-
-
 
 </style>

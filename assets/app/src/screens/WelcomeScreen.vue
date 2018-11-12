@@ -3,10 +3,10 @@
   <div>
     <BaseWhitespace/>
     <BaseHeading :level="1" v-show='!inputIsFocused'>
-      Deine Kontaktdaten für die Challenge
+      Vorderer Westen Kassel
     </BaseHeading>
-    <BaseParagraph v-show='!inputIsFocused'>Deine Daten werden nicht an Dritte weitergegeben und nach der Challenge automatisch gelöscht!</BaseParagraph>
-    <button @click='register()' type='submit' class='register-user-button-send'>Account erstellen</button>
+    <BaseParagraph v-show='!inputIsFocused'>Willkommen bei der Umfrage...</BaseParagraph>
+    <BaseButton @click='register()' type='submit' class='register-user-button-send'>Umfrage starten</BaseButton>
   </div>
 </template>
 
@@ -33,7 +33,8 @@ export default {
       this.$apollo.mutate({
         mutation: CREATE_USER,
         variables: {
-          pollId: 9,
+          // pollId: 2
+          pollId: process.env.POLL_ID
         }
       }).then((data) => {
         this.login(data.data.createUser.user.username)

@@ -67,7 +67,7 @@ export default {
     font-size: 0.75rem;
     margin-top: 0.5rem;
     // margin-bottom: 0.1rem;
-    width: 100%;
+    width: 85%;
   }
 
   .textfield {
@@ -76,14 +76,14 @@ export default {
     justify-content: flex-start;
     align-items: flex-start;
     width: 100%;
-    height: 6.5rem;
-    margin-bottom: 0.2rem;
+    height: 42vh;
     font-size: 0.9rem;
     font-weight: 300;
     padding: 0.75rem;
     font-family: 'Open Sans';
     box-sizing: border-box;
     background: #FEFEFE;
+    border: 1px solid rgba(0,0,0,0.1);
     box-shadow: inset 0 0 6px rgba(0,0,0,0.25);
     border-radius: 0.75vw;
 

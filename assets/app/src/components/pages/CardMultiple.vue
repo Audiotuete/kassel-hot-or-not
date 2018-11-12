@@ -4,20 +4,24 @@
     <div v-show='!showCardBack' class='question-container'>
       <CardQuestionContainer :card=card />
       <div class='question-navigation'>
-        <button @click='flipCard()' class='nav-button'>Zur Auswahl</button>
+        <BaseButton @click='flipCard()'>Auswahl treffen</BaseButton>
       </div>
     </div>
     <!-- Back of Card where a note can be made an send (not dragable) -->
     <div v-show='showCardBack' class='backside-container'>
-      <div v-show='!inputIsFocused' class='backside-header'><button class='backside-header-icon' @click='flipCard()'><i class='sl-icon icon-arrow-left'></i></button>Anmerkungen zu:</div>
-      <div v-show='!inputIsFocused' class='backside-question'>{{card.question.questionText}}</div>
+      <BaseHeading :level=1 v-show='!inputIsFocused' >
+        <button class='backside-header-icon' @click='flipCard()'><i class='sl-icon icon-arrow-left'></i></button>
+        Anmerkungen zu:
+        <span class='placeholder-for-space-between' style='width: 1rem'></span>
+      </BaseHeading>
+      <BaseHeading :level=2 v-show='!inputIsFocused' >{{card.question.questionText}}</BaseHeading>
       <form class='choice-form' @submit.prevent='makeChoice()'>
         
         <label :class="{'choice-form-option': true, 'choice-form-option__active': currentChoice == index }" v-for='(option, index) in options' :key=index :for=option>
           <input type="radio" :id=option name="choice" :value=index v-model='currentChoice'>
           {{option}}
         </label> 
-        <button class='nav-button'>Senden</button>
+        <BaseButton>Senden</BaseButton>
       </form>
     </div>
   </div>
@@ -72,7 +76,7 @@ export default {
           questionId: questionId,
           answerChoiceKey: choice,
         }
-      }).then((data) => {
+      }).then(() => {
         this.$emit('cardrequest') 
       }).catch((error) => {
         // Error
@@ -109,33 +113,16 @@ export default {
     padding: 5vh 3vw  5vh 3vw;
   }
 
-  .backside-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 1.5rem 1rem 1rem 1rem;
-    font-size: 1.2rem;
-    font-weight: 300;
-  }
-
   .backside-header-icon {
-    position: absolute;
-    left: 3vw;
-    top: 8.5vh;
-    font-size: 1.5rem;
+    // position: absolute;
+    // left: 3vw;
+    // top: 4.5vh;
+    width: 1rem;
+    font-size: 1.25rem;
     color: #555555;
   }
 
-  .backside-question {
-    margin: 0rem 1.75rem 0 1.75rem;
-    font-size: 1.1rem;
-    text-align: center;
-    color: #555555;
-    line-height: 1.3;
-    font-weight: 500;
-  }
-
-  .choice-form{
+  .choice-form {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -148,7 +135,7 @@ export default {
       background: #fafafa;
       height: 2.5rem;
       width: 70vw;
-      font-weight: 600;
+      font-weight: 500;
       box-shadow: 0 0 4px 0 rgba(0,0,0,0.15);
 
       &__active {
@@ -215,15 +202,6 @@ export default {
     left: 0; top: 0; height: 100%; width: 100%;
   }
 
-  .question-text {
-    z-index: 50;
-    color: #fff;
-    font-size: 2rem;
-    font-weight: 500;
-    text-align: center;
-    text-shadow: 0px 0px 6px rgba(0, 0, 0, 1);
-    width: 80%;
-  }
 
 .question-navigation {
   display: flex;
@@ -234,23 +212,6 @@ export default {
   height: 16vh;
   background: rgba(255,255,255,1);
   // box-shadow: 0 0 6px 0 rgba(0,0,0,0.25);
-}
-
-.nav-button {
-  background: #4A90E2;
-  border: none;
-  outline: none;
-  width: 60vw;
-  height: 8vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 1vh;
-  margin-top: 1rem;
-  box-shadow: 0 0 4px 0 rgba(0,0,0,0.25);
 }
 
 

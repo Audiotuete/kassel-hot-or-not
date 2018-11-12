@@ -55,7 +55,7 @@ export default {
 }
 
 html, body {
-  position: relative;
+  position: fixed;
   overflow: hidden;
 }
 

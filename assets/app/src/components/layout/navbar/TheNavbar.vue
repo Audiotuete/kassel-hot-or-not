@@ -3,11 +3,11 @@
     <div class='menu-container'>
       <button 
         v-for='(userAnswer, index) in allUserAnswers' 
-        :key=userAnswer.id
+        :key=userAnswer.question.id
         @click='navigateToCard(userAnswer, index)'
       >
         <i 
-        :class="{'fa fa-circle': true, 'question-answered': userAnswer.status, 'active': userAnswer.id === activeCardId }"></i></button>
+        :class="{'fa fa-circle': true, 'question-answered': userAnswer.status, 'active': userAnswer.question.id === activeCardId }"></i></button>
     </div>
   </div>
 </template>
@@ -36,8 +36,8 @@ export default {
   display: flex;
   justify-content: center;
   position: absolute;
-  height: 7vh;
-  width: 100%;
+  height: 40px;
+  width: 100vw;
   background: rgba(255,255,255,1);
   box-shadow: 0 0 4px 0 rgba(0,0,0,0.25);
 }

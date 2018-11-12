@@ -54,7 +54,7 @@ const apolloClient = new ApolloClient({
   cache: app_cache, 
   link: ApolloLink.from([
     authLink,
-    new HttpLink({uri: `http://localhost:8000/graphql`})]
+    new HttpLink({uri: process.env.ROOT_API})]
   ),
   connectToDevTools: false,
 })

@@ -21,16 +21,21 @@ export default {
   h1, h2, h3, h4, h5, h6 {
     display: flex;
     text-align: center;
+    justify-content: space-between;
+    // align-items: center;
   }
 
   h1 {
-    margin: 1.5rem 1rem 1rem 1rem;
+    margin: 0 1rem 1.5rem 1rem;
     font-size: 1.1rem;
     font-weight: 300;
+    width: 100%;
   }
-  // h2 {
-
-  // }
+  h2 {
+    margin: 0 1rem 1rem 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+  }
   // h3 {
     
   // }
