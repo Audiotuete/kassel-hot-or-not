@@ -51,11 +51,13 @@ router.beforeEach((to, from, next) => {
       }
     })
   } else if (to.matched.some(record => record.meta.requiresAuth)) {
-    if(!localStorage.getItem(process.env.TOKEN_KEY)) {
-      next('/')
-    } else {
-      next()
-    }    
+    getUser().then((data) => {
+      if(!data.currentPoll) {
+        next('/')
+      } else {
+        next()
+      }
+    })     
   } else {
     next()
   }

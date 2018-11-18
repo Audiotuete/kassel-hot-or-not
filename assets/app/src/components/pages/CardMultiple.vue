@@ -1,6 +1,9 @@
 
 <template>
   <div>
+      <!-- <div v-if='throwOutEvent.throwDirection.toString() === "Symbol(LEFT)"'>To the left</div>
+      <div v-if='throwOutEvent.throwDirection.toString() === "Symbol(UP)"'>To the up</div>
+      <div v-if='throwOutEvent.throwDirection.toString() === "Symbol(DOWN)"'>To the down</div> -->
     <div v-show='!showCardBack' class='question-container'>
       <CardQuestionContainer :card=card />
       <div class='question-navigation'>
@@ -36,7 +39,7 @@ import UPDATE_USER_ANSWER_MULTIPLE from '../../graphql/userAnswers/updateUserAns
 
 export default {
   name: 'card-multiple',
-  props: ['card', 'showCardBack'],
+  props: ['card', 'showCardBack', 'throwOutEvent'],
   components: {
     CardQuestionContainer
   },
@@ -45,6 +48,9 @@ export default {
       currentChoice: this.card.answerChoiceKey,
       inputIsFocused: false,
     }
+  },
+  updated() {
+    console.log(this.throwOutEvent.throwOutConfidence)
   },
   computed: {
     options() {
@@ -183,24 +189,8 @@ export default {
     border-radius: 0.75vw;
   }
 
-.question-image-text {
-  position: relative;
-  background-repeat: no-repeat;
-  background-size: auto;
-  background-attachment: fixed;
-  background-position: center; 
-  display: flex;
-  width: 100%;
-  flex: 4;
-  justify-content: center;
-  align-items: center;
-}
-  .overlay {
-    opacity: .5;
-    background-color: black;
-    position: absolute;
-    left: 0; top: 0; height: 100%; width: 100%;
-  }
+
+
 
 
 .question-navigation {
@@ -213,6 +203,8 @@ export default {
   background: rgba(255,255,255,1);
   // box-shadow: 0 0 6px 0 rgba(0,0,0,0.25);
 }
+
+
 
 
 </style>

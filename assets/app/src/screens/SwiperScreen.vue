@@ -7,7 +7,9 @@
       @throwoutleft='throwOutLeft()'
       @throwoutdown='toggleCard()'
       @throwoutright='throwOutRight()'
-      @change='this.activeCardDomElement = document.querySelector(".cardselector")'
+      @dragmove='dragmove($event)'
+      @dragstart='throwOutEvent.throwOutConfidence = 0'
+      @dragend='throwOutEvent.throwOutConfidence = 0'
       :config='config'
       ref='vueswing'
       class='swing-wrapper'
@@ -22,6 +24,7 @@
           ref='basecard'
           :card='card' 
           :showCardBack='showCardBack'
+          :throwOutEvent='throwOutEvent'
         />
     </vue-swing>
   </div>
@@ -45,6 +48,7 @@ export default {
     return {
       allUserAnswers: null,
       activeCardDomElement: '',
+      throwOutEvent: {throwDirection: '', throwOutConfidence: 0},
       nextCardIndex: 0,
       cardStack: [{id: 'prevent-undefined-error'}],
       showCardBack: false,
@@ -55,12 +59,11 @@ export default {
       query: ALL_USER_ANSWERS,
       fetchPolicy: 'network-only',
       update(data) {
-        this.cardStack = []
         this.showCardBack = false
         this.inputIsFocused = false
-        // this.nextCardIndex = 0
         this.allUserAnswers = data.allUserAnswers
         this.cardStack.unshift(this.allUserAnswers[this.nextCardIndex])
+        this.cardStack.pop()
         this.nextCardIndex += 1
         return data.allUserAnswers
       }
@@ -84,13 +87,17 @@ export default {
         throwOutConfidence: (xOffset, yOffset, element) => {
           const xConfidence = Math.min(Math.abs(xOffset) / element.offsetWidth * 1.5, 1);
           const yConfidence = Math.min(Math.abs(yOffset) / element.offsetHeight * 2.5, 1);
-
           return Math.max(xConfidence, yConfidence);
         }
       }
     }
   },
   methods: {
+    dragmove(event) {
+      // let confidence = (event.throwOutConfidence).toFixed(1) 
+      // this.throwOutEvent = {throwDirection: event.throwDirection, throwOutConfidence: confidence}
+      this.throwOutEvent = event
+    },
     throwOutRight() {
       this.$refs.basecard[0].throwOutRight()
     },
@@ -98,7 +105,8 @@ export default {
       this.$refs.basecard[0].throwOutLeft()
     },
     toggleCard() {
-      let card = this.$refs.vueswing.stack.getCard(this.activeCardDomElement)
+      let domElement = this.activeCardDomElement = document.querySelector('.card-' + this.cardStack[0].question.id)
+      let card = this.$refs.vueswing.stack.getCard(domElement)
       card.throwIn(0, 0)
       this.showCardBack = !this.showCardBack
     },
@@ -122,15 +130,15 @@ export default {
     goToCard(index) {
       this.showCardBack = false
 
-      this.cardStack = []
       this.cardStack.unshift(this.allUserAnswers[index])
+      this.cardStack.pop()
       this.nextCardIndex = index + 1
     }
   },
   updated() {
-    if (this.cardStack) {
-      this.activeCardDomElement = document.querySelector('.card-' + this.cardStack[0].question.id)
-    }
+    // if (this.throwOutEvent.throwOutConfidence >= 1) {
+    //   this.activeCardDomElement = document.querySelector('.card-' + this.cardStack[0].question.id)
+    // }
   },
 }
 </script>

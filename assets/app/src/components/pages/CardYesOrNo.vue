@@ -20,7 +20,16 @@
         <span class='placeholder-for-space-between' style='width: 1rem'></span>
       </BaseHeading>
       <BaseHeading :level=2 v-show='!inputIsFocused'>{{card.question.questionText}}</BaseHeading>
-      <BaseTextarea @focus='inputIsFocused = true' v-model=answerNote maxlength='250'/>
+      <BaseInputError v-show="errors.has('Anmerkung')">{{ errors.first('Anmerkung') }}</BaseInputError>
+      <BaseTextarea
+        :validation="{'hasError': errors.has('Anmerkung') }"
+        v-model='answerNote' 
+        v-validate='{ required: true, min: 5 }'
+        data-vv-delay="1200"
+        @focus='inputIsFocused = true' 
+        type='text' 
+        name='Anmerkung' 
+        />
       <div class='note-show-question' v-show='inputIsFocused' @click='inputIsFocused = false'><i class='sl-icon icon-arrow-up note-show-question-icon'></i></div>
       <BaseButton @click='makeNote(answerValues.NOTE, answerNote)' class='button-offset'>Senden</BaseButton>
     </div>
@@ -37,7 +46,7 @@ import UPDATE_USER_ANSWER_YES_OR_NO from '../../graphql/userAnswers/updateUserAn
 
 export default {
   name: 'card-yes-or-no',
-  props: ['card', 'showCardBack'],
+  props: ['card', 'showCardBack', 'throwOutEvent'],
   components: {
     CardQuestionContainer
   },
@@ -63,7 +72,13 @@ export default {
       this.saveCardAnswer(value, '')
     },
     makeNote(value = -1, note = '') {
-      this.saveCardAnswer(value, note)
+      this.$validator.validateAll().then((result) => {
+        if(!result) {
+          return false
+        } else {
+          this.saveCardAnswer(value, note)
+        }
+      })
     },
     flipCard() {
       this.$emit('flip')
@@ -100,11 +115,6 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;  
-  }
-  
-  .question-image-text {
-    height: 10%;
-    flex: 4;
   }
 
   .backside-container {
@@ -145,11 +155,6 @@ export default {
     box-shadow: 0 0 4px 0 rgba(0,0,0,0.15);
   }
 
-
-.question-image-text {
-  height: 10%;
-  flex: 4;
-}
 
 .choicebar {
   display: flex;

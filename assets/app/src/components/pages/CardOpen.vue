@@ -15,7 +15,16 @@
         <span class='placeholder-for-space-between' style='width: 1rem'></span>
       </BaseHeading>
       <BaseHeading :level=2 v-show='!inputIsFocused' class='backside-question'>{{card.question.questionText}}</BaseHeading>
-      <BaseTextarea @focus='inputIsFocused = true' v-model=answerText maxlength='250'/>
+      <BaseInputError v-show="errors.has('Meinung')">{{ errors.first('Meinung') }}</BaseInputError>
+      <BaseTextarea
+        :validation="{'hasError': errors.has('Meinung') }"
+        v-model='answerText' 
+        v-validate='{ required: true, min: 5 }'
+        data-vv-delay="1200"
+        @focus='inputIsFocused = true' 
+        type='text' 
+        name='Meinung' 
+        />
       <div class='note-show-question' v-show='inputIsFocused' @click='inputIsFocused = false'><i class='sl-icon icon-arrow-up note-show-question-icon'></i></div>
       <BaseButton @click='sendAnswer(answerText)' class='button-offset'>Senden</BaseButton>
     </div>
@@ -32,7 +41,7 @@ import UPDATE_USER_ANSWER_OPEN from '../../graphql/userAnswers/updateUserAnswerO
 
 export default {
   name: 'card-open',
-  props: ['card', 'showCardBack'],
+  props: ['card', 'showCardBack', 'throwOutEvent'],
   components: {
     CardQuestionContainer
   },
@@ -52,7 +61,13 @@ export default {
     },
 
     sendAnswer() {
-      this.saveCardAnswer(this.answerText)
+      this.$validator.validateAll().then((result) => {
+        if(!result) {
+          return false
+        } else {
+          this.saveCardAnswer(this.answerText)
+        }
+      })
     },
     flipCard() {
       this.$emit('flip')
@@ -88,11 +103,6 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;  
-  }
-  
-  .question-image-text {
-    height: 10%;
-    flex: 4;
   }
 
   .backside-container {
@@ -149,11 +159,6 @@ export default {
     box-shadow: inset 0 0 6px rgba(0,0,0,0.25);
     border-radius: 0.75vw;
   }
-
-.question-image-text {
-  height: 10%;
-  flex: 4;
-}
 
 .question-navigation {
   display: flex;
