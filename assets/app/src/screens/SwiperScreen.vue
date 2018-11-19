@@ -5,7 +5,7 @@
     <vue-swing
       @throwoutup='skipQuestion()'
       @throwoutleft='throwOutLeft()'
-      @throwoutdown='toggleCard()'
+      @throwoutdown='flipCard()'
       @throwoutright='throwOutRight()'
       @dragmove='dragmove($event)'
       @dragstart='throwOutEvent.throwOutConfidence = 0'
@@ -20,7 +20,7 @@
           :class='["card-" + card.question.id ]'
           :key='card.question.id'
           @cardrequest='requestNewCard()'
-          @flip='toggleCard()'
+          @flip='flipCard()'
           ref='basecard'
           :card='card' 
           :showCardBack='showCardBack'
@@ -104,7 +104,7 @@ export default {
     throwOutLeft() {
       this.$refs.basecard[0].throwOutLeft()
     },
-    toggleCard() {
+    flipCard() {
       let domElement = this.activeCardDomElement = document.querySelector('.card-' + this.cardStack[0].question.id)
       let card = this.$refs.vueswing.stack.getCard(domElement)
       card.throwIn(0, 0)

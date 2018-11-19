@@ -49,9 +49,6 @@ export default {
       inputIsFocused: false,
     }
   },
-  updated() {
-    console.log(this.throwOutEvent.throwOutConfidence)
-  },
   computed: {
     options() {
       return JSON.parse(this.card.question.options.replace(/'/g, '"'))
@@ -88,8 +85,8 @@ export default {
         // Error
         console.error(error)
       })
-    }
-  },
+    },
+  }
 }
 </script>
 
@@ -161,7 +158,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    top: 7vh;
+    top: 5vh;
     right: 6vw;
     height: 10vw;
     width: 10vw;

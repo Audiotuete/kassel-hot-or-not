@@ -26,7 +26,7 @@
         v-model='answerNote' 
         v-validate='{ required: true, min: 5 }'
         data-vv-delay="1200"
-        @focus='inputIsFocused = true' 
+        @focus='focus()' 
         type='text' 
         name='Anmerkung' 
         />
@@ -100,8 +100,12 @@ export default {
         // Error
         console.error(error)
       })
-    }
-  },
+    },
+    focus() {
+      this.inputIsFocused = true
+      setTimeout(() => window.scrollTo(0, 0), 300)    
+    },
+  }
 }
 </script>
 
@@ -144,7 +148,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    top: 7vh;
+    top: 5vh;
     right: 6vw;
     height: 10vw;
     width: 10vw;
