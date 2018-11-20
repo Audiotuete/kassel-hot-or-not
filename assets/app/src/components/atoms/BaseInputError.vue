@@ -9,5 +9,6 @@
   font-size: 0.7rem;
   color: #E94F35;
   text-align: center;
+  margin-bottom: 0.1rem;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <label class="input-container">
-  {{ label }}
+  <span>{{ label }}</span>
     <input
       :class="{input: true, 'form-error-field': this.hasValidationError }"
       v-bind="$attrs"
@@ -64,26 +64,29 @@ export default {
 
   .input-container {
     align-self: center;
-    font-size: 0.75rem;
+    text-align: center;
+    font-size: 0.70rem;
     margin-top: 0.5rem;
     // margin-bottom: 0.1rem;
     width: 100%;
   }
 
   .input {
-    pointer-events: auto;
+    // pointer-events: auto;
     display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     width: 100%;
     height: 2.5rem;
     margin-bottom: 0.2rem;
     font-size: 0.9rem;
     font-weight: 300;
-    padding-left: 0.75rem;
+    // padding-left: 0.75rem;
     font-family: 'Open Sans';
     box-sizing: border-box;
     background: #FEFEFE;
+    border: 1px solid rgba(0,0,0,0.1);
     box-shadow: inset 0 0 6px rgba(0,0,0,0.25);
     border-radius: 0.75vw;
 

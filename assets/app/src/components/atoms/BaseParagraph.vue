@@ -18,7 +18,7 @@ export default {
 
 <style lang="scss" scoped>
   .paragraph {
-    margin: 0rem 1.25rem 0 1.25rem;
+    margin: 0rem .5rem 0 .5rem;
     font-size: 0.8rem;
     text-align: center;
     color: #555555;

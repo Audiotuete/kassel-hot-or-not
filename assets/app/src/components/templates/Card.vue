@@ -92,7 +92,7 @@ export default {
 
 .card {
   z-index: 50;
-  top: 11.5vh;
+  top: 10vh;
   position: relative;
   height: 74vh;
   width: 88vw;

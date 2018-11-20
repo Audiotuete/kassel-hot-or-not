@@ -1,21 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import SwiperScreen from '../screens/SwiperScreen'
 import WelcomeScreen from '../screens/WelcomeScreen'
+import SwiperScreen from '../screens/SwiperScreen'
+import ThankYouScreen from '../screens/ThankYouScreen.vue'
 
+// Webpack Chunk import syntax
 // const RegisterUserScreen = () => import('../screens/RegisterUserScreen')
-// const EnterChallengeScreen = () => import('../screens/EnterChallengeScreen')
-// const LoginScreen = () => import('../screens/LoginScreen')
-// const RegisterProjectScreen = () => import('../screens/RegisterProjectScreen')
-
-// const TaskFeedScreen = () => import(/* webpackChunkName: "tasks-group" */ '../screens/TaskFeedScreen')
-// const TaskScreen = () => import(/* webpackChunkName: "tasks-group" */ '../screens/TaskScreen')
-
-// const ChallengeInfoScreen = () => import( '../screens/ChallengeInfoScreen')
-
-// const TheNavbar = () => import('../components/navbar/TheNavbar')
-// const TheFooter = () => import('../components/footer/TheFooter')
 
 // GraphQL imports for router guards
 import { apolloProvider } from '../main'
@@ -31,9 +22,13 @@ export const router = new VueRouter({
       meta: { requiresNoPoll: true }
     },
     { path: '/umfrage',
-      components: { default: SwiperScreen},
+      components: { default: SwiperScreen, },
       meta: { requiresAuth: true },
     },
+    { path: '/thankyou',
+      components: { default: ThankYouScreen, },
+      meta: { requiresAuth: true },
+  },
   
     // { path: '/projectsettings', components: {default: ProjectSettingsScreen, footer: TheFooter}}, 
     // { path: '/usersettings', components: {default: UserSettingsScreen, footer: TheFooter}}, 

@@ -47,38 +47,26 @@ export default {
     transform: rotate(-6deg);
 
   }
-
   &.left {
     top: 1rem;
     right: -4.5rem;
     transform: rotate(6deg);
 
   }
-
   &.up {
     bottom: -9rem;
     left: 3.5rem;
     transform: rotate(16deg);
   }
-
   &.down {
     top: -2rem;
     left: 3rem;
-    transform: rotate(-6deg);
+    transform: rotate(-4deg);
 
   }
 
  .throwout-icon{
     font-size: 10rem;
-
-    &.right {
-      color: #9cdc59;
-      // text-shadow: 0px 0px 4px rgb(156, 220, 89);
-    }
-    &.left {
-      color: #da495a;
-      // text-shadow: 0px 0px 4px rgb(218, 73, 90);
-    }
  }
 }
 </style>

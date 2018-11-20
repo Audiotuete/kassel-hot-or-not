@@ -1,13 +1,14 @@
 <template>
   <div class='navbar'>
     <div class='menu-container'>
-      <button 
+      <button
+        class='menu-button'
         v-for='(userAnswer, index) in allUserAnswers' 
         :key=userAnswer.question.id
         @click='navigateToCard(userAnswer, index)'
       >
-        <i 
-        :class="{'fa fa-circle': true, 'question-answered': userAnswer.status, 'active': userAnswer.question.id === activeCardId }"></i></button>
+        <div :class="{'circle': true, 'question-answered': userAnswer.status, 'active': userAnswer.question.id === activeCardId }"/>
+      </button>
     </div>
   </div>
 </template>
@@ -32,7 +33,7 @@ export default {
 
 <style lang='scss'>
 .navbar {
-  z-index: 1000;
+  z-index: 500;
   display: flex;
   justify-content: center;
   position: absolute;
@@ -42,7 +43,7 @@ export default {
   box-shadow: 0 0 4px 0 rgba(0,0,0,0.25);
 }
 .menu-container {
-  width: 65vw;
+  width: 95vw;
   display: flex;
   padding-top: 1px;
   justify-content: space-around;
@@ -50,9 +51,15 @@ export default {
   line-height: 0;
 }
 
-.fa {
-  color: #E2E2E2;
-  font-size: 0.5rem;
+.menu-button {
+  background: transparent;
+}
+
+.circle {
+  background: #E2E2E2;
+  border-radius: 50%;
+  width: 6px;
+  height: 6px;
 }
 
 // .fa:hover {
@@ -60,13 +67,14 @@ export default {
 // }
 
 .question-answered {
-  color: #7ED321
+  background: #7ED321
 }
 
 .active {
-  color: #4A90E2;
-  font-size: 0.75rem;
-  padding-top: 3px;
+  background: #4A90E2;
+  width: 8px;
+  height: 8px;
+
 }
 
 
