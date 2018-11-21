@@ -3,7 +3,6 @@ import VueRouter from 'vue-router'
 
 import WelcomeScreen from '../screens/WelcomeScreen'
 import SwiperScreen from '../screens/SwiperScreen'
-import ThankYouScreen from '../screens/ThankYouScreen.vue'
 
 // Webpack Chunk import syntax
 // const RegisterUserScreen = () => import('../screens/RegisterUserScreen')
@@ -18,15 +17,15 @@ export const router = new VueRouter({
   // mode: 'history',
   routes: [
     { path: '/', 
-      components: { default: WelcomeScreen, },
+      components: { default: WelcomeScreen },
       meta: { requiresNoPoll: true }
     },
     { path: '/umfrage',
-      components: { default: SwiperScreen, },
+      components: { default: SwiperScreen },
       meta: { requiresAuth: true },
     },
     { path: '/thankyou',
-      components: { default: ThankYouScreen, },
+      components: { default: WelcomeScreen, },
       meta: { requiresAuth: true },
   },
   

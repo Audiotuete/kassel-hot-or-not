@@ -41,18 +41,20 @@ export default {
   width: 100vw;
   background: rgba(255,255,255,1);
   box-shadow: 0 0 4px 0 rgba(0,0,0,0.25);
+  padding-left: 1rem;
+  padding-right: 1rem;
+  box-sizing: border-box;
 }
 .menu-container {
-  width: 95vw;
   display: flex;
-  padding-top: 1px;
+  width: 90vw;
   justify-content: space-around;
   align-items: center;
-  line-height: 0;
 }
 
 .menu-button {
   background: transparent;
+  height: 1rem;
 }
 
 .circle {

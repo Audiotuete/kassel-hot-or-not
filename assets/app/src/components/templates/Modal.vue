@@ -76,10 +76,6 @@ export default {
     color: #555;
   }
 
-  
 }
-
-
-
 </style>
 

@@ -31,39 +31,51 @@
     <Modal 
     v-if='showSuccessModal' 
     @close='showSuccessModal = false' 
-    class='end-modal' 
     >
-      <span class='end-modal-heading' v-show='!inputIsFocused' >
-        Geschafft !
-      </span>
-      <i v-if='!emailInputIsFocused' class='end-modal-icon sl-icon icon-diamond'></i>
-      <div v-if='!emailInputIsFocused' class='end-modal-counter'><span class='counter-done'>{{allUserAnswers.length}}</span>  von <span class='counter-open'>{{allUserAnswers.length}}</span> Fragen beantwortet</div>
-      <BaseParagraph>Trage hier deine eMail-Adresse ein, um am Gewinnspiel für Fahrkarten im Wert von bis zu 30€ teilzunehmen.</BaseParagraph>
-      <BaseInput 
-        class='end-modal-input'
-        @focus='emailInputIsFocused = true'
-        @blur='emailInputIsFocused = false'
-        :label='"Gewinnspiel-Mail-Adresse"'
-        :validation="{'hasError': errors.has('Eingabe') }"
-        v-validate='{ email: true }'
-        data-vv-delay="1200"
-        type='text' 
-        name='Eingabe'/>
-      <BaseInputError v-show="errors.has('Eingabe')">{{ errors.first('Eingabe') }}</BaseInputError>
-      <div class='end-modal-privacy'>Deine Adresse wird nicht weitergegeben oder zu Werbezwecken genutzt</div>
-      <BaseButton>Abschicken</BaseButton>
+      <div v-if='!mailAddressSend' class='end-modal'>
+        <span class='end-modal-heading' v-show='!inputIsFocused' >
+          Geschafft !
+        </span>
+        <i v-if='!emailInputIsFocused' class='end-modal-icon sl-icon icon-diamond'></i>
+        <div v-if='!emailInputIsFocused' class='end-modal-counter'><span class='counter-done'>{{allUserAnswers.length}}</span>  von <span class='counter-open'>{{allUserAnswers.length}}</span> Fragen beantwortet</div>
+        <BaseParagraph>Trage hier deine eMail-Adresse ein, um am Gewinnspiel für Fahrkarten im Wert von bis zu 30€ teilzunehmen.</BaseParagraph>
+        <BaseInput 
+          class='end-modal-input'
+          v-model='successMailAddress'
+          @focus='focus()'
+          @blur='emailInputIsFocused = false'
+          :label='"Gewinnspiel-Mail-Adresse"'
+          :validation="{'hasError': errors.has('Eingabe') }"
+          v-validate='{ required: true, email: true }'
+          data-vv-delay="1200"
+          type='email' 
+          name='Eingabe'/>
+        <BaseInputError v-show="errors.has('Eingabe')">{{ errors.first('Eingabe') }}</BaseInputError>
+        <div class='end-modal-privacy'>Deine Adresse wird nicht weitergegeben oder zu Werbezwecken genutzt</div>
+      </div>
+      <BaseButton v-if='!mailAddressSend' @click='sendMailAddress()'>Abschicken</BaseButton>
+
+      <div v-if='mailAddressSend' class='mail-verification-popup'>
+        <span class='end-modal-heading'>Mailadresse bestätigen</span>
+        <BaseParagraph>
+            Du hast Post von uns!<br>
+            Ja, super umständlich, aber leider gesetztlich vorgeschrieben.<br>
+            ¯\_(ツ)_/¯
+        </BaseParagraph>
+        <div class='mail-verification-popup-icon'><i class='sl-icon icon-envelope-letter'></i></div>
+      </div>
+      <BaseButton v-if='mailAddressSend' @click='showSuccessModal = false'>Ok</BaseButton>
     </Modal>
 
     <Modal 
     v-if='showMissingModal' 
     @close='showMissingModal = false' 
-    class='end-modal' 
     >
       <span class='end-modal-heading end-modal-heading__top-margin' v-show='!inputIsFocused' >
         Super! Du bist am Ende der Umfrage angekommen.
       </span>      
       <BaseParagraph>Um am Gewinnspiel teilzunehmen zu können, musst du allerdings alle Fragen beantwortet. :)</BaseParagraph>
-      <div class='end-modal-counter'>Du hast schon <br><span class='counter-done'>{{allUserAnswers.length}}</span>  von <span class='counter-open'>{{allUserAnswers.length}}</span> Fragen beantwortet</div>
+      <div class='end-modal-counter'>Du hast schon <br><span class='counter-done'>{{pendingQuestions}}</span>  von <span class='counter-open'>{{allUserAnswers.length}}</span> Fragen beantwortet</div>
       <BaseParagraph>Schau einfach im Fortschrittsbalken, welche dir noch fehlen.</BaseParagraph>
       <TheNavbar class='end-modal-navbar' @navigate='goToCard($event)' :allUserAnswers=allUserAnswers :activeCardId=activeCardId />
       <div>
@@ -101,9 +113,12 @@ export default {
       nextCardIndex: 0,
       cardStack: [{id: 'prevent-undefined-error'}],
       showCardBack: false,
-      showSuccessModal: true,
+      showSuccessModal: false,
       showMissingModal: false,
       emailInputIsFocused: false,
+      pendingQuestions: 0,
+      successMailAddress: '',
+      mailAddressSend: false,
     }
   },
   apollo: {
@@ -145,6 +160,10 @@ export default {
     }
   },
   methods: {
+    focus() {
+      this.emailInputIsFocused = true
+      setTimeout(() => window.scrollTo(0, 0), 400)    
+    },
     dragmove(event) {
       // let confidence = (event.throwOutConfidence).toFixed(1) 
       // this.throwOutEvent = {throwDirection: event.throwDirection, throwOutConfidence: confidence}
@@ -169,15 +188,41 @@ export default {
       this.$apollo.queries.allUserAnswers.refetch()
     },
     requestNewCard() {
+      this.mailAddressSend = false
 
+      let counter = 0
+      let missingIndexes = []
       if (this.nextCardIndex >= this.allUserAnswers.length ) {
         this.nextCardIndex = 0
-        this.$apollo.queries.allUserAnswers.refetch()
-
+        this.$apollo.queries.allUserAnswers.refetch().then(data => {
+        data.data.allUserAnswers.forEach((userAnswer, index) => {
+          if (userAnswer.status === true) {
+            counter += 1
+          } else {
+            this.nextCardIndex = 0
+          }
+        })
+        if (counter === this.allUserAnswers.length) {
+          this.pendingQuestions = counter
+          this.showSuccessModal = true
+        } else {
+          this.pendingQuestions = counter
+          this.showMissingModal = true
+        }
+        })
       } else {
-        this.$apollo.queries.allUserAnswers.refetch()
+        this.$apollo.queries.allUserAnswers.refetch().then(data => {
+          data.data.allUserAnswers.forEach((userAnswer) => {
+          if (userAnswer.status === true) {
+            counter += 1
+          }
+        })
+        if (counter === this.allUserAnswers.length) {
+          this.pendingQuestions = counter
+          this.showSuccessModal = true
+        }
+        })
       }
- 
     },
     goToCard(index) {
       this.showCardBack = false
@@ -185,13 +230,18 @@ export default {
       this.cardStack.unshift(this.allUserAnswers[index])
       this.cardStack.pop()
       this.nextCardIndex = index + 1
+    },
+    sendMailAddress() {
+      this.$validator.validateAll().then((result) => {
+        if(!result) {
+          return false
+        } else {
+          this.mailAddressSend = true
+        }
+      })
     }
   },
-  updated() {
-    // if (this.throwOutEvent.throwOutConfidence >= 1) {
-    //   this.activeCardDomElement = document.querySelector('.card-' + this.cardStack[0].question.id)
-    // }
-  },
+
 }
 </script>
 
@@ -201,7 +251,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-bottom: 150%;
+  // padding-bottom: 150%;
 }
 
 .placeholder-card {
@@ -225,7 +275,15 @@ export default {
   z-index: 1000;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.25);
+}
+
+
+.end-modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .end-modal-heading {
@@ -296,6 +354,36 @@ export default {
     background: #7ED321
   }
 }
+
+.mail-verification-popup {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 0.5rem 1rem 1rem;
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
+    box-sizing: border-box;
+    background: #fff;
+    height: 8.8rem;
+    box-shadow: 0 0px 5px 0 #7ED321;
+    border-radius: 4px;
+
+  .mail-verification-popup-icon {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 6rem;
+    opacity: 0.2;
+    color: #7ED321;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
+
+}
+
 
 
 </style>

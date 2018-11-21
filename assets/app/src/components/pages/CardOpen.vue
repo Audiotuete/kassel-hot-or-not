@@ -91,7 +91,7 @@ export default {
     },
     focus() {
       this.inputIsFocused = true
-      setTimeout(() => window.scrollTo(0, 0), 300)
+      setTimeout(() => window.scrollTo(0, 0), 400)
       
     },
   }

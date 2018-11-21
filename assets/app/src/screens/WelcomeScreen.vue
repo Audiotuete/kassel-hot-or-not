@@ -1,12 +1,12 @@
 
 <template>
-  <div>
-    <BaseWhitespace/>
-    <BaseHeading :level="1" v-show='!inputIsFocused'>
-      Vorderer Westen Kassel
-    </BaseHeading>
-    <BaseParagraph v-show='!inputIsFocused'>Willkommen bei der Umfrage...</BaseParagraph>
-    <BaseButton @click='register()' type='submit' class='register-user-button-send'>Umfrage starten</BaseButton>
+  <div class='main-container'>
+    <BaseWhitespace></BaseWhitespace>
+    <div class='startscreen-heading'>Deine Meinung zählt!</div>
+    <BaseParagraph>Mobilität im Stadtteil Vorderer Westen.</BaseParagraph>
+    <div :style='background' class='image'></div>
+    <span class='call-to-action-text'>Jetzt mitmachen und Fahrkarten gewinnen!</span>
+    <BaseButton @click='register()'>Umfrage starten</BaseButton>
   </div>
 </template>
 
@@ -16,13 +16,12 @@ import CREATE_USER from '../graphql/users/createUser.gql'
 import GET_TOKEN from '../graphql/auth/getToken.gql'
 
 export default {
-  name: 'register-user-screen',
-  components: {
-  },
+  name: 'wellcome-screen',
   data () {
     return {
-      inputIsFocused: false,
-      email: '',
+      background: {
+        backgroundImage: 'url(' + 'https://www.kassel-live.de/wp-content/uploads/2016/08/nach-oben-1-e1472211917982.jpg' + ')'
+      }
     }
   },
   methods: {
@@ -68,22 +67,49 @@ export default {
 }
 </script>
 
-<style scoped lang='scss'>
+<style lang='scss'>
 
-  .register-user-button-send {
-    background: $colorPrimary;
-    border: none;
-    outline: none;
-    width: 60vw;
-    height: 45px;
+.main-container{
+  font-size: 1.1rem;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  flex: 1;
+  box-sizing: border-box;
+  // padding: 0 3vw  5vh 3vw;
+}
+
+  .call-to-action-text {
+    text-align: center;
+    font-size: 1rem;
+    width: 70vw;
+  }
+
+  .startscreen-heading {
+    margin-top: 1rem;
+    margin-bottom: 0.25rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .image {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: center; 
     display: flex;
+    width: 85vw;
+    height: 40vh;
+    border-radius: 4px;
+    background-size: 384px 260px;
+    overflow: hidden;
     justify-content: center;
     align-items: center;
-    color: #fff;
-    font-size: 1rem;
-    border-radius: 1vh;
-    margin-top: 1rem;
-    box-shadow: 0 0 4px 0 rgba(0,0,0,0.25);
   }
 
 </style>

@@ -5,7 +5,7 @@
     @click='enterFullscreen()'
   >
     <!-- <router-view name='header'></router-view> -->
-    <router-view class='main-container'></router-view>
+    <router-view></router-view>
     <!-- <router-view name='footer'></router-view> -->
     <!-- <div v-for='user in allUsers' :key=user.id>
       {{user.username}}
@@ -41,18 +41,6 @@ export default {
 </script>
 
 <style lang='scss'>
-
-.main-container{
-  font-size: 1rem;
-  display: flex;
-  height: 100%;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  flex: 1;
-  box-sizing: border-box;
-  padding: 0 3vw  5vh 3vw;
-}
 
 html, body {
   position: fixed;
