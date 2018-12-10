@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main-container">
     <div v-if='this.$apollo.loading' class="loading"></div>
     <TheNavbar @navigate='goToCard($event)' :allUserAnswers=allUserAnswers :activeCardId=activeCardId />
     <vue-swing
@@ -15,17 +15,17 @@
       class='swing-wrapper'
     >
       <div class='placeholder-card'></div>
-        <Card
-          v-for='card in cardStack'
-          :class='["card-" + card.question.id ]'
-          :key='card.question.id'
-          @cardrequest='requestNewCard()'
-          @flip='flipCard()'
-          ref='basecard'
-          :card='card' 
-          :showCardBack='showCardBack'
-          :throwOutEvent='throwOutEvent'
-        />
+      <Card
+        v-for='card in cardStack'
+        :class='["card-" + card.question.id ]'
+        :key='card.question.id'
+        @cardrequest='requestNewCard()'
+        @flip='flipCard()'
+        ref='basecard'
+        :card='card' 
+        :showCardBack='showCardBack'
+        :throwOutEvent='throwOutEvent'
+      />
     </vue-swing>
     
     <Modal 
@@ -74,7 +74,7 @@
       <span class='end-modal-heading end-modal-heading__top-margin' v-show='!inputIsFocused' >
         Super! Du bist am Ende der Umfrage angekommen.
       </span>      
-      <BaseParagraph>Um am Gewinnspiel teilzunehmen zu können, musst du allerdings alle Fragen beantwortet. :)</BaseParagraph>
+      <BaseParagraph>Um am Gewinnspiel teilzunehmen zu können, musst du allerdings alle Fragen beantworten. :)</BaseParagraph>
       <div class='end-modal-counter'>Du hast schon <br><span class='counter-done'>{{pendingQuestions}}</span>  von <span class='counter-open'>{{allUserAnswers.length}}</span> Fragen beantwortet</div>
       <BaseParagraph>Schau einfach im Fortschrittsbalken, welche dir noch fehlen.</BaseParagraph>
       <TheNavbar class='end-modal-navbar' @navigate='goToCard($event)' :allUserAnswers=allUserAnswers :activeCardId=activeCardId />
@@ -99,8 +99,6 @@ import Modal from '../components/templates/Modal'
 
 // GraphQL
 import ALL_USER_ANSWERS from '../graphql/userAnswers/allUserAnswers.gql'
-import CREATE_USER from '../graphql/users/createUser.gql'
-import GET_TOKEN from '../graphql/auth/getToken.gql'
 
 export default {
   name: 'swiper-screen',
@@ -183,7 +181,7 @@ export default {
     },
     skipQuestion() {
       if (this.nextCardIndex >= this.allUserAnswers.length ) {
-        this.nextCardIndex = 0 
+        this.requestNewCard()
       }
       this.$apollo.queries.allUserAnswers.refetch()
     },
@@ -198,9 +196,7 @@ export default {
         data.data.allUserAnswers.forEach((userAnswer, index) => {
           if (userAnswer.status === true) {
             counter += 1
-          } else {
-            this.nextCardIndex = 0
-          }
+          } 
         })
         if (counter === this.allUserAnswers.length) {
           this.pendingQuestions = counter

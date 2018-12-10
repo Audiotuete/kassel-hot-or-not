@@ -64,7 +64,7 @@ import ThrowOutOverlay from '../templates/ThrowOutOverlay'
 // update CardYesOrNo
 
 export default {
-  name: 'yes-or-no-card',
+  name: 'card-wrapper',
   props: ['card', 'showCardBack', 'throwOutEvent'],
   components: { CardYesOrNo, CardMultiple, CardOpen, ThrowOutOverlay },
   data () {

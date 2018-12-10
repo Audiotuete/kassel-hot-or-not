@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import WelcomeScreen from '../screens/WelcomeScreen'
+import TutorialScreen from '../screens/TutorialScreen'
 import SwiperScreen from '../screens/SwiperScreen'
 
 // Webpack Chunk import syntax
@@ -20,14 +21,14 @@ export const router = new VueRouter({
       components: { default: WelcomeScreen },
       meta: { requiresNoPoll: true }
     },
+    { path: '/tutorial',
+    components: { default: TutorialScreen, },
+    meta: { requiresAuth: true },
+    },
     { path: '/umfrage',
       components: { default: SwiperScreen },
       meta: { requiresAuth: true },
     },
-    { path: '/thankyou',
-      components: { default: WelcomeScreen, },
-      meta: { requiresAuth: true },
-  },
   
     // { path: '/projectsettings', components: {default: ProjectSettingsScreen, footer: TheFooter}}, 
     // { path: '/usersettings', components: {default: UserSettingsScreen, footer: TheFooter}}, 

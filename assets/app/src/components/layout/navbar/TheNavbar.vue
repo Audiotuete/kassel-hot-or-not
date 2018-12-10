@@ -32,6 +32,7 @@ export default {
 </script>
 
 <style lang='scss'>
+
 .navbar {
   z-index: 500;
   display: flex;
@@ -39,22 +40,24 @@ export default {
   position: absolute;
   height: 40px;
   width: 100vw;
-  background: rgba(255,255,255,1);
+  background: #fff;
   box-shadow: 0 0 4px 0 rgba(0,0,0,0.25);
-  padding-left: 1rem;
-  padding-right: 1rem;
-  box-sizing: border-box;
-}
-.menu-container {
-  display: flex;
-  width: 90vw;
-  justify-content: space-around;
-  align-items: center;
+
+  .menu-container {
+    display: flex;
+    width: 90vw;
+    // flex: 1 1 auto;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 
+
 .menu-button {
-  background: transparent;
-  height: 1rem;
+  display: flex;
+  justify-content: center;
+  height: 1.75rem;
+  width: 1rem;
 }
 
 .circle {
@@ -76,12 +79,6 @@ export default {
   background: #4A90E2;
   width: 8px;
   height: 8px;
-
 }
-
-
-
-
-
 
 </style>

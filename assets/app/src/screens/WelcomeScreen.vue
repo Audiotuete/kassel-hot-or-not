@@ -69,18 +69,6 @@ export default {
 
 <style lang='scss'>
 
-.main-container{
-  font-size: 1.1rem;
-  display: flex;
-  height: 100%;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  flex: 1;
-  box-sizing: border-box;
-  // padding: 0 3vw  5vh 3vw;
-}
-
   .call-to-action-text {
     text-align: center;
     font-size: 1rem;

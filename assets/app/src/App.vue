@@ -42,6 +42,17 @@ export default {
 
 <style lang='scss'>
 
+.main-container{
+  font-size: 1.1rem;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  // box-sizing: border-box;
+  // padding: 0 3vw  5vh 3vw;
+}
+
 html, body {
   position: fixed;
   overflow: hidden;
@@ -65,6 +76,7 @@ body {
     background: transparent;
     border: none;
     outline: none;
+    padding: 0;
   }
 
   input, textarea {
