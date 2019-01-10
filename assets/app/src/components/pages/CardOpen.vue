@@ -137,8 +137,8 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    top: 5vh;
-    right: 6vw;
+    top: 3vh;
+    left: 5vw;
     height: 10vw;
     width: 10vw;
     background: #fff;

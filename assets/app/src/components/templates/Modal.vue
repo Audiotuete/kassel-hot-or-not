@@ -3,7 +3,7 @@
     <div class="overlay" @click='$emit("close", $event.target.value)'></div>
     <div class='modal-card'>
       <div class='modal-content-container'>
-          <button v-if='closebutton' class='modal-header-icon' @click='$emit("close", $event.target.value)'>
+          <button v-if='closebutton' class='modal-close-icon' @click='$emit("close", $event.target.value)'>
             <i class='sl-icon icon-close'></i>
           </button>
         <slot></slot>
@@ -68,7 +68,7 @@ export default {
     padding: 3vh 3vw 2vh 3vw;
   }
 
-  .modal-header-icon {
+  .modal-close-icon {
     position: absolute;
     right: 3vw;
     top: 1rem;

@@ -2,6 +2,7 @@
   <div class="main-container">
     <div v-if='this.$apollo.loading' class="loading"></div>
     <TheNavbar @navigate='goToCard($event)' :allUserAnswers=allUserAnswers :activeCardId=activeCardId />
+    <button class='impressum-button' @click='showInfoModal = true'><span class="impressum-icon">i</span></button>
     <vue-swing
       @throwoutup='skipQuestion()'
       @throwoutleft='throwOutLeft()'
@@ -38,7 +39,7 @@
         </span>
         <i v-if='!emailInputIsFocused' class='end-modal-icon sl-icon icon-diamond'></i>
         <div v-if='!emailInputIsFocused' class='end-modal-counter'><span class='counter-done'>{{allUserAnswers.length}}</span>  von <span class='counter-open'>{{allUserAnswers.length}}</span> Fragen beantwortet</div>
-        <BaseParagraph>Trage hier deine eMail-Adresse ein, um am Gewinnspiel für Fahrkarten im Wert von bis zu 30€ teilzunehmen.</BaseParagraph>
+        <BaseParagraph>Trage hier deine Mail-Adresse ein, um am Gewinnspiel für Gutscheine (Läden und Gastronomie im Vorderen Westen) teilzunehmen :)</BaseParagraph>
         <BaseInput 
           class='end-modal-input'
           v-model='successMailAddress'
@@ -61,6 +62,7 @@
             Du hast Post von uns!<br>
             Ja, super umständlich, aber leider gesetztlich vorgeschrieben.<br>
             ¯\_(ツ)_/¯
+            (Wenn nix ankommt schau mal im Spam Ordner nach)
         </BaseParagraph>
         <div class='mail-verification-popup-icon'><i class='sl-icon icon-envelope-letter'></i></div>
       </div>
@@ -87,6 +89,30 @@
         </div>
       </div>
     </Modal>
+    <Modal 
+    v-if='showInfoModal' 
+    @close='showInfoModal = false' 
+    >
+      <span class='end-modal-heading end-modal-heading' style="margin-bottom: .5rem">Impressum</span>      
+      <BaseParagraph> 
+          Straßenverkehrs- <br>und Tiefbauamt - Verkehr
+          <br>Friedrichsstraße 36, 34117 Kassel
+          <br>documenta-Stadt (kreisfreie Stadt)
+          <br>Tel: 0561 / 787-787
+          <br>Fax: 0561 / 787-3140
+          <br><a href="mailto:info@kassel.de">info@kassel.de</a>
+      </BaseParagraph>
+      <img style='width: 80%' src='https://www.bewirken.org/wp-content/uploads/2019/01/Kassel_RGB_Normal.png' alt=''>
+
+      <span class='end-modal-heading end-modal-heading' style="margin-bottom: .5rem" >Datenschutz</span>      
+
+    <BaseParagraph>
+      Alle personenbezogenen Daten der Teilnehmenden werden ausschließlich zum Zwecke der
+      Durchführung des Gewinnspiels und der Umfrageauswertung gespeichert und genutzt. Eine unberechtigte
+      Weitergabe an Dritte findet nicht statt. Ebenso eine Nutzung für Werbezwecke. 
+      Nach Abschluss des Projektes werden die Daten der Teilnehmenden unverzüglich gelöscht.
+    </BaseParagraph>
+    </Modal>
   </div>
 </template>
 
@@ -99,6 +125,8 @@ import Modal from '../components/templates/Modal'
 
 // GraphQL
 import ALL_USER_ANSWERS from '../graphql/userAnswers/allUserAnswers.gql'
+import UPDATE_USER from '../graphql/users/updateUser.gql'
+
 
 export default {
   name: 'swiper-screen',
@@ -113,6 +141,7 @@ export default {
       showCardBack: false,
       showSuccessModal: false,
       showMissingModal: false,
+      showInfoModal: false,
       emailInputIsFocused: false,
       pendingQuestions: 0,
       successMailAddress: '',
@@ -150,14 +179,17 @@ export default {
         minThrowOutDistance: 1000,
         maxThrowOutDistance: 5000,
         throwOutConfidence: (xOffset, yOffset, element) => {
-          const xConfidence = Math.min(Math.abs(xOffset) / element.offsetWidth * 1.5, 1);
-          const yConfidence = Math.min(Math.abs(yOffset) / element.offsetHeight * 2.5, 1);
+          const xConfidence = Math.min(Math.abs(xOffset) / element.offsetWidth * 1.8, 1);
+          const yConfidence = Math.min(Math.abs(yOffset) / element.offsetHeight * 2.8, 1);
           return Math.max(xConfidence, yConfidence);
         }
       }
     }
   },
   methods: {
+    goToInfoScreen() {
+      this.$router.push('/info')
+    },
     focus() {
       this.emailInputIsFocused = true
       setTimeout(() => window.scrollTo(0, 0), 400)    
@@ -232,16 +264,45 @@ export default {
         if(!result) {
           return false
         } else {
-          this.mailAddressSend = true
+          this.$apollo.mutate({
+            mutation: UPDATE_USER,
+            variables: {
+              email: this.successMailAddress
+            }
+          }).then(() => {
+            this.mailAddressSend = true
+          }).catch((error) => {
+            // Error
+            console.error(error)
+          })
         }
       })
     }
   },
-
 }
 </script>
 
 <style scoped lang='scss'>
+
+.impressum-button {
+  position: absolute;
+  z-index: 1000;
+  right: 0.5rem;
+  top: 3rem;
+  background: #fff;
+  border-radius: 50%;
+  height: 2.9rem;
+  width: 2.9rem;
+  border: 0.16rem solid #629EE4;
+
+  .impressum-icon {
+    font-size: 2rem;
+    font-weight: 500;
+    font-family: 'Open Sans', 'Arial', sans-serif;
+    color: #629EE4;
+    line-height: 1;
+  }
+}
 
 .swing-wrapper {
   display: flex;

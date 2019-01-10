@@ -5,7 +5,7 @@
     <div class='startscreen-heading'>Deine Meinung zählt!</div>
     <BaseParagraph>Mobilität im Stadtteil Vorderer Westen.</BaseParagraph>
     <div :style='background' class='image'></div>
-    <span class='call-to-action-text'>Jetzt mitmachen und Fahrkarten gewinnen!</span>
+    <span class='call-to-action-text'>Jetzt mitmachen und Gutscheine für Läden und Gastronomie im Vorderen Westen gewinnen!</span>
     <BaseButton @click='register()'>Umfrage starten</BaseButton>
   </div>
 </template>
@@ -55,7 +55,7 @@ export default {
         const token = data.data.tokenAuth.token
         localStorage.setItem(process.env.TOKEN_KEY, token)
         if (localStorage.getItem(process.env.TOKEN_KEY)) {
-          this.$router.push('/umfrage')
+          this.$router.push('/tutorial')
         }
       }).catch((error) => {
         // Error
