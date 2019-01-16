@@ -20,8 +20,8 @@
       <BaseHeading :level=2 v-show='!inputIsFocused' >{{card.question.questionText}}</BaseHeading>
       <form class='choice-form' @submit.prevent='makeChoice()'>
         
-        <label :class="{'choice-form-option': true, 'choice-form-option__active': currentChoice == index }" v-for='(option, index) in options' :key=index :for=option>
-          <input type="radio" :id=option name="choice" :value=index v-model='currentChoice'>
+        <label :class="{'choice-form-option': true, 'choice-form-option__active': currentChoice.includes(index)}" v-for='(option, index) in options' :key=index :for=option>
+          <input type="checkbox" :id=option name="choice" :value=index v-model='currentChoice'>
           {{option}}
         </label> 
         <BaseButton>Senden</BaseButton>
@@ -67,10 +67,12 @@ export default {
       this.saveCardAnswer(this.currentChoice)
     },
     flipCard() {
+      console.log(this.card.answerChoiceKey)
+      console.log(this.currentChoice.includes())
       this.$emit('flip')
     },
 
-    saveCardAnswer(choice = -1) {
+    saveCardAnswer(choice = []) {
       const questionId = this.card.question.id
 
       this.$apollo.mutate({

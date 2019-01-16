@@ -1,15 +1,11 @@
 
 <template>
-  <div
+  <div 
     id='app'
-    @click='enterFullscreen()'
   >
-    <!-- <router-view name='header'></router-view> -->
-    <router-view></router-view>
-    <!-- <router-view name='footer'></router-view> -->
-    <!-- <div v-for='user in allUsers' :key=user.id>
-      {{user.username}}
-    </div> -->
+    <router-view v-if='deviceOrientation'></router-view>
+    <!-- Shown when phone is in landscape mode -->
+    <div v-else>Test</div>
   </div>
 </template>
 
@@ -23,19 +19,28 @@ export default {
   components: {},
   data () {
     return {
-      allUsers: []
+      allUsers: [],
+      deviceOrientation: true
     }
   },
   methods: {
-    enterFullscreen () {
-      // if (screenfull.enabled && screenfull.isFullscreen == false ) {
-      //   screenfull.request()
-      // }
-    }
+    changeOrientation() {
+      if(Math.abs(window.orientation === 90)){ 
+        this.deviceOrientation = false
+      } else {
+        this.deviceOrientation = true
+      }
+    },
   },
   created() {
+    window.addEventListener('orientationchange', () => this.changeOrientation())
     this.$validator.localize('de', dictionary.de) 
-  }
+  },
+
+  destroyed() {
+    window.removeEventListener('orientationchange', () => this.changeOrientation())
+  },
+  
 }
 
 </script>

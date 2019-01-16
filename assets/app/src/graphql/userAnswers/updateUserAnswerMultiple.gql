@@ -1,4 +1,4 @@
-mutation updateUserAnswerMultiple($questionId: ID!, $answerChoiceKey: Int!) { 
+mutation updateUserAnswerMultiple($questionId: ID!, $answerChoiceKey: [Int]!) { 
     updateUserAnswerMultiple(
       questionId: $questionId,
       answerChoiceKey: $answerChoiceKey

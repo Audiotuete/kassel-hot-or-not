@@ -89,29 +89,11 @@
         </div>
       </div>
     </Modal>
-    <Modal 
-    v-if='showInfoModal' 
-    @close='showInfoModal = false' 
+    <Modal     
+      v-if='showInfoModal' 
+      @close='showInfoModal = false'
     >
-      <span class='end-modal-heading end-modal-heading' style="margin-bottom: .5rem">Impressum</span>      
-      <BaseParagraph> 
-          Straßenverkehrs- <br>und Tiefbauamt - Verkehr
-          <br>Friedrichsstraße 36, 34117 Kassel
-          <br>documenta-Stadt (kreisfreie Stadt)
-          <br>Tel: 0561 / 787-787
-          <br>Fax: 0561 / 787-3140
-          <br><a href="mailto:info@kassel.de">info@kassel.de</a>
-      </BaseParagraph>
-      <img style='width: 80%' src='https://www.bewirken.org/wp-content/uploads/2019/01/Kassel_RGB_Normal.png' alt=''>
-
-      <span class='end-modal-heading end-modal-heading' style="margin-bottom: .5rem" >Datenschutz</span>      
-
-    <BaseParagraph>
-      Alle personenbezogenen Daten der Teilnehmenden werden ausschließlich zum Zwecke der
-      Durchführung des Gewinnspiels und der Umfrageauswertung gespeichert und genutzt. Eine unberechtigte
-      Weitergabe an Dritte findet nicht statt. Ebenso eine Nutzung für Werbezwecke. 
-      Nach Abschluss des Projektes werden die Daten der Teilnehmenden unverzüglich gelöscht.
-    </BaseParagraph>
+      <Impressum/>
     </Modal>
   </div>
 </template>
@@ -122,6 +104,7 @@ import VueSwing from 'vue-swing'
 import TheNavbar from '../components/layout/navbar/TheNavbar'
 import Card from '../components/templates/Card'
 import Modal from '../components/templates/Modal'
+import Impressum from '../components/pages/Impressum'
 
 // GraphQL
 import ALL_USER_ANSWERS from '../graphql/userAnswers/allUserAnswers.gql'
@@ -130,7 +113,7 @@ import UPDATE_USER from '../graphql/users/updateUser.gql'
 
 export default {
   name: 'swiper-screen',
-  components: { VueSwing, TheNavbar, Card, Modal },
+  components: { VueSwing, TheNavbar, Card, Modal, Impressum },
   data () {
     return {
       allUserAnswers: null,

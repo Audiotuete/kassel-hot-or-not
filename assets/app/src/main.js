@@ -67,6 +67,8 @@ export const apolloProvider = new VueApollo({
 Vue.use(VueApollo)
 Vue.use(VeeValidate)
 
+// Vue.prototype.window = window
+
 new Vue({
   el: '#app',
   router,

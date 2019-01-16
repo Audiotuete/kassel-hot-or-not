@@ -7,5 +7,5 @@ module.exports = merge(prodEnv, {
   USER_PASSWORD: '"mXc}b@[:yZ3WhF2"',
   ROOT_API: '"https://leidenschaftlich-fuehren.de/graphql"',
   TOKEN_KEY: '"YXnk}cg8N{KUSx?"',
-  POLL_ID: '2'
+  POLL_ID: '1'
 })
