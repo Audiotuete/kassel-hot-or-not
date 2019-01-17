@@ -67,8 +67,6 @@ export default {
       this.saveCardAnswer(this.currentChoice)
     },
     flipCard() {
-      console.log(this.card.answerChoiceKey)
-      console.log(this.currentChoice.includes())
       this.$emit('flip')
     },
 

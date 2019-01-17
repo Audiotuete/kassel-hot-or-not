@@ -58,13 +58,15 @@
 
       <div v-if='mailAddressSend' class='mail-verification-popup'>
         <span class='end-modal-heading'>Mailadresse bestätigen</span>
-        <BaseParagraph>
-            Du hast Post von uns!<br>
-            Ja, super umständlich, aber leider gesetztlich vorgeschrieben.<br>
-            ¯\_(ツ)_/¯
-            (Wenn nix ankommt schau mal im Spam Ordner nach)
+          <BaseParagraph>
+            Du hast Post von uns!
         </BaseParagraph>
         <div class='mail-verification-popup-icon'><i class='sl-icon icon-envelope-letter'></i></div>
+        <BaseParagraph>
+            Ja, super umständlich, aber leider gesetztlich vorgeschrieben.<br>
+            ¯\_(ツ)_/¯<br>
+            Falls nichts ankommt, schau mal im Spam Ordner nach :)
+        </BaseParagraph>
       </div>
       <BaseButton v-if='mailAddressSend' @click='showSuccessModal = false'>Ok</BaseButton>
     </Modal>
@@ -400,16 +402,15 @@ export default {
     flex-direction: column;
     position: relative;
     padding: 0.5rem 1rem 1rem;
-    margin-left: 0.25rem;
-    margin-right: 0.25rem;
+    margin: 2.5rem 0.5rem 0 0.5rem;
     box-sizing: border-box;
     background: #fff;
-    height: 8.8rem;
+    height: 100%;
     box-shadow: 0 0px 5px 0 #7ED321;
     border-radius: 4px;
 
   .mail-verification-popup-icon {
-    position: absolute;
+    // position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -417,9 +418,9 @@ export default {
     opacity: 0.2;
     color: #7ED321;
     width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
+    margin: 1rem 0;
+    // top: 0;
+    // left: 0;
   }
 
 }
