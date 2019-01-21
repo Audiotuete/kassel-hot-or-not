@@ -28,8 +28,8 @@ export default {
   .question-image-text {
     position: relative;
     background-repeat: no-repeat;
-    background-size: auto;
-    background-attachment: fixed;
+    background-size: 19.6875rem 23.625rem;
+    // background-attachment: fixed;
     background-position: center; 
     display: flex;
     width: 100%;

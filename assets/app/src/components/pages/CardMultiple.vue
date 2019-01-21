@@ -14,7 +14,7 @@
     <div v-show='showCardBack' class='backside-container'>
       <BaseHeading :level=1 v-show='!inputIsFocused' >
         <button class='backside-header-icon' @click='flipCard()'><i class='sl-icon icon-arrow-left'></i></button>
-        Anmerkungen zu:
+        Mehrfachauswahl:
         <span class='placeholder-for-space-between' style='width: 1rem'></span>
       </BaseHeading>
       <BaseHeading :level=2 v-show='!inputIsFocused' >{{card.question.questionText}}</BaseHeading>
@@ -134,6 +134,7 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
+      text-align: center;
       margin-top: 0.5rem;
       background: #fafafa;
       height: 2.5rem;
