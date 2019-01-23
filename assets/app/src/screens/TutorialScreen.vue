@@ -93,10 +93,8 @@ export default {
       card: {id: 0},
       showSymbolModal: false,
       tutorialCheck: {left: false, right: false, up: false, down: false}
-
     }
   },
-
   computed: {
     config () {
       return {        

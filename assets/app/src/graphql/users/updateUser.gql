@@ -2,9 +2,7 @@ mutation updateUser($email: String!) {
     updateUser(
       email: $email,
     ) {
-      user {
-        email
-      }
+      success 
     }
   }
   

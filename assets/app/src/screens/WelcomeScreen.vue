@@ -11,7 +11,7 @@
 Teilnehmenden <strong>Gutscheine</strong> für Läden und Gastronomie im Vorderen Westen.</BaseParagraph>
       </div>
       <BaseButton @click='register()'>Umfrage starten</BaseButton>
-      <p class='impressum-link' @click='showImpressum = true' style='margin-top: 0.5rem'>Impressum</p class='impressum-link'>
+      <p class='impressum-link' @click='showImpressum = true' style='margin-top: 0.5rem'>Impressum</p>
     </div>
     <Modal     
       v-if='showImpressum' 

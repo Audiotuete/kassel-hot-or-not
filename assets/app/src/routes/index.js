@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import WelcomeScreen from '../screens/WelcomeScreen'
 import TutorialScreen from '../screens/TutorialScreen'
 import SwiperScreen from '../screens/SwiperScreen'
+import VerificationScreen from '../screens/VerificationScreen'
 
 // Webpack Chunk import syntax
 // const RegisterUserScreen = () => import('../screens/RegisterUserScreen')
@@ -28,6 +29,10 @@ export const router = new VueRouter({
     { path: '/umfrage',
       components: { default: SwiperScreen },
       meta: { requiresAuth: true },
+    },
+    { path: '/verify/:activation_key',
+      components: { default: VerificationScreen },
+      meta: { requiresAuth: false },
     },
   
     // { path: '/projectsettings', components: {default: ProjectSettingsScreen, footer: TheFooter}}, 

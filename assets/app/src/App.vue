@@ -3,44 +3,48 @@
   <div 
     id='app'
   >
-    <router-view v-if='deviceOrientation'></router-view>
+    <router-view v-if='isPortrait'></router-view>
     <!-- Shown when phone is in landscape mode -->
-    <div v-else>Test</div>
+    <LandscapeWarning v-else></LandscapeWarning>
   </div>
 </template>
 
 <script>
+import LandscapeWarning from './components/pages/LandscapeWarning'
+
 import { dictionary } from './validation.conf.js'
 // import screenfull from 'screenfull'
 
 export default {
 
   name: 'app',
-  components: {},
+  components: {LandscapeWarning},
   data () {
     return {
       allUsers: [],
-      deviceOrientation: true
+      isPortrait: true,
     }
   },
   methods: {
-    changeOrientation() {
-      if(Math.abs(window.orientation === 90)){ 
-        this.deviceOrientation = false
-      } else {
-        this.deviceOrientation = true
-      }
-    },
+    checkOrientation() {
+        if(Math.abs(window.orientation) === 90) {
+          this.isPortrait = false
+        } else {
+          this.isPortrait = true
+        }
+    }
   },
   created() {
-    window.addEventListener('orientationchange', () => this.changeOrientation())
+    window.addEventListener('orientationchange', () => this.checkOrientation(), false)
+    window.addEventListener("resize", () => this.checkOrientation(), false)
+    
     this.$validator.localize('de', dictionary.de) 
   },
 
   destroyed() {
-    window.removeEventListener('orientationchange', () => this.changeOrientation())
+    window.removeEventListener('orientationchange', () => this.checkOrientation(), false)
+    window.removeEventListener("resize", () => this.checkOrientation(), false) 
   },
-  
 }
 
 </script>
