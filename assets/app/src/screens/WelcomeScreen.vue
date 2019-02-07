@@ -8,10 +8,11 @@
         <div :style='background' class='image'><span class='text-block'>dazu!</span></div>
         <div class='startscreen-heading' style='margin: 0rem'>Abstimmen und gewinnen!</div>
         <BaseParagraph style='margin: 0; text-align: left'> Zum Dank verlosen wir unter allen
-Teilnehmenden <strong>Gutscheine</strong> für Läden und Gastronomie im Vorderen Westen.</BaseParagraph>
+Teilnehmenden <strong>Gutscheine</strong> für Läden und Gastronomie im Vorderen Westen.</BaseParagraph>
+        <!-- <div class='startscreen-heading'>Umfrage startet am 07.02.2019</div> -->
       </div>
       <BaseButton @click='register()'>Umfrage starten</BaseButton>
-      <p class='impressum-link' @click='showImpressum = true' style='margin-top: 0.5rem'>Impressum</p>
+      <p class='impressum-link' @click='showImpressum = true' style='margin-top: 0.5rem'>Impressum | Datenschutz</p>
     </div>
     <Modal     
       v-if='showImpressum' 

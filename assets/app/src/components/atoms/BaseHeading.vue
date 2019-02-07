@@ -26,7 +26,7 @@ export default {
   }
 
   h1 {
-    margin: 0 1rem 1.5rem 1rem;
+    margin: 0 1rem 1rem 1rem;
     font-size: 1.1rem;
     font-weight: 300;
     width: 100%;

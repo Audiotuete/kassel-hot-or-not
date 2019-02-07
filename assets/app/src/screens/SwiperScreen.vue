@@ -1,8 +1,11 @@
+
+
 <template>
   <div class="main-container">
     <div v-if='this.$apollo.loading' class="loading"></div>
     <TheNavbar @navigate='goToCard($event)' :allUserAnswers=allUserAnswers :activeCardId=activeCardId />
-    <button class='impressum-button' @click='showInfoModal = true'><span class="impressum-icon">i</span></button>
+    <button class='info-button' @click='showInfo = true'><span class="info-icon">i</span></button>
+
     <vue-swing
       @throwoutup='skipQuestion()'
       @throwoutleft='throwOutLeft()'
@@ -92,10 +95,15 @@
       </div>
     </Modal>
     <Modal     
-      v-if='showInfoModal' 
-      @close='showInfoModal = false'
+      v-if='showInfo' 
+      @close='closeInfo()'
     >
-      <Impressum/>
+        <span class='end-modal-heading' v-show='!inputIsFocused' >
+          Info
+        </span>
+      <SymbolsLegend v-if='!showImpressum'/>
+      <BaseButton v-show='!showImpressum' style='color: #4A90E2; background: #fff; border: 1px solid #4A90E2; box-shadow: none;' @click='showImpressum = true'>Impressum</BaseButton>
+      <Impressum v-if='showImpressum'/>
     </Modal>
   </div>
 </template>
@@ -107,6 +115,7 @@ import TheNavbar from '../components/layout/navbar/TheNavbar'
 import Card from '../components/templates/Card'
 import Modal from '../components/templates/Modal'
 import Impressum from '../components/pages/Impressum'
+import SymbolsLegend from '../components/pages/SymbolsLegend'
 
 // GraphQL
 import ALL_USER_ANSWERS from '../graphql/userAnswers/allUserAnswers.gql'
@@ -115,7 +124,7 @@ import UPDATE_USER from '../graphql/users/updateUser.gql'
 
 export default {
   name: 'swiper-screen',
-  components: { VueSwing, TheNavbar, Card, Modal, Impressum },
+  components: { VueSwing, TheNavbar, Card, Modal, Impressum, SymbolsLegend },
   data () {
     return {
       allUserAnswers: null,
@@ -126,7 +135,8 @@ export default {
       showCardBack: false,
       showSuccessModal: false,
       showMissingModal: false,
-      showInfoModal: false,
+      showInfo: false,
+      showImpressum: false,
       emailInputIsFocused: false,
       pendingQuestions: 0,
       successMailAddress: '',
@@ -157,9 +167,9 @@ export default {
         allowedDirections: 
         [
           VueSwing.Direction.UP,
-          VueSwing.Direction.DOWN,
-          VueSwing.Direction.RIGHT,
-          VueSwing.Direction.LEFT,
+          // VueSwing.Direction.DOWN,
+          // VueSwing.Direction.RIGHT,
+          // VueSwing.Direction.LEFT,
         ],
         minThrowOutDistance: 1000,
         maxThrowOutDistance: 5000,
@@ -172,8 +182,9 @@ export default {
     }
   },
   methods: {
-    goToInfoScreen() {
-      this.$router.push('/info')
+    closeInfo() {
+      this.showImpressum = false
+      this.showInfo = false
     },
     focus() {
       this.emailInputIsFocused = true
@@ -184,12 +195,12 @@ export default {
       // this.throwOutEvent = {throwDirection: event.throwDirection, throwOutConfidence: confidence}
       this.throwOutEvent = event
     },
-    throwOutRight() {
-      this.$refs.basecard[0].throwOutRight()
-    },
-    throwOutLeft() {
-      this.$refs.basecard[0].throwOutLeft()
-    },
+    // throwOutRight() {
+    //   this.$refs.basecard[0].throwOutRight()
+    // },
+    // throwOutLeft() {
+    //   this.$refs.basecard[0].throwOutLeft()
+    // },
     flipCard() {
       let domElement = this.activeCardDomElement = document.querySelector('.card-' + this.cardStack[0].question.id)
       let card = this.$refs.vueswing.stack.getCard(domElement)
@@ -269,7 +280,7 @@ export default {
 
 <style scoped lang='scss'>
 
-.impressum-button {
+.info-button {
   position: absolute;
   z-index: 1000;
   right: 0.5rem;
@@ -280,7 +291,7 @@ export default {
   width: 2.9rem;
   border: 0.16rem solid #629EE4;
 
-  .impressum-icon {
+  .info-icon {
     font-size: 2rem;
     font-weight: 500;
     font-family: 'Open Sans', 'Arial', sans-serif;

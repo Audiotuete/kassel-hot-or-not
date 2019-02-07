@@ -56,6 +56,7 @@ export default {
 .menu-button {
   display: flex;
   justify-content: center;
+  align-items: center;
   height: 1.75rem;
   width: 1rem;
 }

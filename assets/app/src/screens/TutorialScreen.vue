@@ -3,7 +3,7 @@
     <div v-if='this.$apollo.loading' class="loading"></div>
     <!-- <TheNavbar @navigate='goToCard($event)' :allUserAnswers=allUserAnswers :activeCardId=activeCardId /> -->
     <vue-swing
-      @throwoutup='throwout()'
+      @throwoutup='goToPoll()'
       @throwoutleft='throwout()'
       @throwoutdown='throwout()'
       @throwoutright='throwout()'
@@ -16,60 +16,51 @@
     <div class='card'></div>
     <div class='card tutorial-card'>
       <div class='tutorial-container'>
-        <BaseHeading :level=2 class='tutorial-text'>
+        <!-- <BaseHeading :level=2 class='tutorial-text'>
           Die Fragen können in vier verschiedene Richtungen gezogen (Swipe) werden…
         </BaseHeading>
         <div class='tutorial-graphic'>
+          <div>
+            <div class='card card__small card-left'>
+              <span :class="{'indicator-button indicator-button__small': true, 'indicator-checked': this.tutorialCheck.left }"><i class='sl-icon icon-arrow-left-circle'></i></span>
+            </div>
+            <div class='card card__small card-right'>
+              <span :class="{'indicator-button indicator-button__small': true, 'indicator-checked': this.tutorialCheck.right }"><i class='sl-icon icon-arrow-right-circle'></i></span>
+            </div>
+            <div class='card card__small card-up'>
+              <span :class="{'indicator-button indicator-button__small': true, 'indicator-checked': this.tutorialCheck.up }"><i class='sl-icon icon-arrow-up-circle'></i></span>
+            </div>
+            <div class='card card__small card-down'>
+              <span :class="{'indicator-button indicator-button__small': true, 'indicator-checked': this.tutorialCheck.down }"><i class='sl-icon icon-arrow-down-circle'></i></span>
+            </div>
+          </div>
+        </div>
+        <div class='indicator-bar'>
+          <div class='indicator-container'>
+            <span :class="{'indicator-button': true, 'indicator-checked': this.tutorialCheck.left }"><i class='sl-icon icon-arrow-left-circle'/></span>
+            <span :class="{'indicator-button': true, 'indicator-checked': this.tutorialCheck.right }"><i class='sl-icon icon-arrow-right-circle'/></span>
+            <span :class="{'indicator-button': true, 'indicator-checked': this.tutorialCheck.up }"><i class='sl-icon icon-arrow-up-circle'/></span>
+            <span :class="{'indicator-button': true, 'indicator-checked': this.tutorialCheck.down }"><i class='sl-icon icon-arrow-down-circle'/></span>
+          </div>
+        </div> -->
+        <BaseParagraph style='margin: 1rem 0  1.5rem 0' :level=2>Manche Fragen nutzen Symbole,<br> die folgendes bedeuten:</BaseParagraph>
+        <SymbolsLegend/>
+        <BaseParagraph>Fragen können durch ein Wischen nach oben übersprungen werden.
+        </BaseParagraph>
+        <BaseHeading style='margin-top: 0.5rem; color: #4A90E2' :level=2>Wische nach oben, um zu starten!</BaseHeading>
 
-          <div class='card card__small card-left'>
-            <span :class="{'indicator-button indicator-button__small': true, 'indicator-checked': this.tutorialCheck.left }"><i class='sl-icon icon-arrow-left-circle'></i></span>
-          </div>
-          <div class='card card__small card-right'>
-            <span :class="{'indicator-button indicator-button__small': true, 'indicator-checked': this.tutorialCheck.right }"><i class='sl-icon icon-arrow-right-circle'></i></span>
-          </div>
-          <div class='card card__small card-up'>
-            <span :class="{'indicator-button indicator-button__small': true, 'indicator-checked': this.tutorialCheck.up }"><i class='sl-icon icon-arrow-up-circle'></i></span>
-          </div>
-          <div class='card card__small card-down'>
-            <span :class="{'indicator-button indicator-button__small': true, 'indicator-checked': this.tutorialCheck.down }"><i class='sl-icon icon-arrow-down-circle'></i></span>
-          </div>
-        </div>
-      <div class='indicator-bar'>
-        <div class='indicator-container'>
-          <span :class="{'indicator-button': true, 'indicator-checked': this.tutorialCheck.left }"><i class='sl-icon icon-arrow-left-circle'/></span>
-          <span :class="{'indicator-button': true, 'indicator-checked': this.tutorialCheck.right }"><i class='sl-icon icon-arrow-right-circle'/></span>
-          <span :class="{'indicator-button': true, 'indicator-checked': this.tutorialCheck.up }"><i class='sl-icon icon-arrow-up-circle'/></span>
-          <span :class="{'indicator-button': true, 'indicator-checked': this.tutorialCheck.down }"><i class='sl-icon icon-arrow-down-circle'/></span>
-        </div>
-      </div>
       </div>
     </div>
 
     </vue-swing>
 
-    <Modal 
+    <!-- <Modal 
     v-if='showSymbolModal'
     @close='showSymbolModal = false'
     >
-      <span class='modal-heading modal-heading__top-margin' >
-        Die 5 Swipe-Symbole
-      </span>
-      <div class="symbols-list-container-outer">
-        <div class="symbols-list-container-inner">
-          <div class='symbols-container check'><i class='sl-icon icon-check'/><span class='symbol-text'>Ja</span></div>
-          <div class='symbols-container close'><i class='sl-icon icon-close'/><span class='symbol-text'>Nein</span></div>
-          <div class='symbols-container note'><i class='sl-icon icon-note'/><span class='symbol-text'>Anmerkung</span></div>
-        </div>
-        <hr class='devider'>
-        <div class="symbols-list-container-inner">
-          <div class='symbols-container doc'><i class='sl-icon icon-doc'/><span class='symbol-text'>Rückseite</span></div>
-          <div class='symbols-container action-redo'><span class='rotation'><i class='sl-icon icon-action-redo'/></span><span class='symbol-text'>Überspringen</span></div>
-        </div>
-      </div>
-      <BaseButton @click='goToPoll()'>Ok</BaseButton>
- 
-
-    </Modal>
+      <SymbolsLegend/>
+      <BaseButton style='margin: 0' @click='goToPoll()'>Ok</BaseButton>
+    </Modal> -->
   </div>
 </template>
 
@@ -78,13 +69,14 @@ import VueSwing from 'vue-swing'
 
 import TheNavbar from '../components/layout/navbar/TheNavbar'
 import Modal from '../components/templates/Modal'
+import SymbolsLegend from '../components/pages/SymbolsLegend'
 
 // GraphQL
 import CREATE_USER from '../graphql/users/createUser.gql'
 
 export default {
   name: 'tutorial-screen',
-  components: { VueSwing, TheNavbar, Modal },
+  components: { VueSwing, TheNavbar, Modal, SymbolsLegend },
   data () {
     return {
       activeCardDomElement: '',
@@ -249,12 +241,12 @@ export default {
 
 .tutorial-container {
   z-index: 50;
-  width: 100%;
+  width: 95%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  // align-items: center;  
+  // justify-content: center;
+  align-items: center;  
 }
 
 .tutorial-text {

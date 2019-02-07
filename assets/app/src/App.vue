@@ -3,14 +3,16 @@
   <div 
     id='app'
   >
-    <router-view v-if='isPortrait'></router-view>
+    <DesktopWarning v-if='!isMobile'><BaseButton style='width: 16rem' @click='openMobileWindow()'>Mobile Ansicht öffnen</BaseButton></DesktopWarning>
+    <router-view v-else id='router-view' v-show='isPortrait'></router-view>
     <!-- Shown when phone is in landscape mode -->
-    <LandscapeWarning v-else></LandscapeWarning>
+    <LandscapeWarning v-show='!isPortrait'></LandscapeWarning>
   </div>
 </template>
 
 <script>
 import LandscapeWarning from './components/pages/LandscapeWarning'
+import DesktopWarning from './components/pages/DesktopWarning'
 
 import { dictionary } from './validation.conf.js'
 // import screenfull from 'screenfull'
@@ -18,32 +20,50 @@ import { dictionary } from './validation.conf.js'
 export default {
 
   name: 'app',
-  components: {LandscapeWarning},
+  components: {LandscapeWarning, DesktopWarning},
   data () {
     return {
       allUsers: [],
       isPortrait: true,
+      isMobile: false,
     }
   },
   methods: {
-    checkOrientation() {
-        if(Math.abs(window.orientation) === 90) {
-          this.isPortrait = false
-        } else {
-          this.isPortrait = true
-        }
+    checkWindow() {
+      if(Math.abs(window.orientation) === 90) {
+        this.isPortrait = false
+      } else {
+        this.isPortrait = true
+      }
+    },
+    openMobileWindow() {
+      window.open(window.location.href, "", "width=400, height=720") // Opens a new window
     }
   },
   created() {
-    window.addEventListener('orientationchange', () => this.checkOrientation(), false)
-    window.addEventListener("resize", () => this.checkOrientation(), false)
+    window.addEventListener('orientationchange', () => this.checkWindow(), false)
+    window.addEventListener("resize", () => this.checkWindow(), false)
     
-    this.$validator.localize('de', dictionary.de) 
+    this.$validator.localize('de', dictionary.de)
+
+    if( navigator.userAgent.match(/Android/i)
+      || navigator.userAgent.match(/webOS/i)
+      || navigator.userAgent.match(/iPhone/i)
+      || navigator.userAgent.match(/iPad/i)
+      || navigator.userAgent.match(/iPod/i)
+      || navigator.userAgent.match(/BlackBerry/i)
+      || navigator.userAgent.match(/Windows Phone/i)) {
+        this.isMobile = true
+      }
+
+      if(window.innerWidth < 1024) {
+        this.isMobile = true
+      }
   },
 
   destroyed() {
-    window.removeEventListener('orientationchange', () => this.checkOrientation(), false)
-    window.removeEventListener("resize", () => this.checkOrientation(), false) 
+    window.removeEventListener('orientationchange', () => this.checkWindow(), false)
+    window.removeEventListener("resize", () => this.checkWindow(), false) 
   },
 }
 
@@ -65,6 +85,7 @@ export default {
 html, body {
   position: fixed;
   overflow: hidden;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -92,6 +113,12 @@ body {
     outline: none;
     border: none;
     resize: none;
+  }
+}
+@media only screen 
+and (min-width : 1025px) {
+  #router-view {
+    display: none
   }
 }
 
