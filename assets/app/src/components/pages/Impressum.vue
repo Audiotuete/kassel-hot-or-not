@@ -1,6 +1,10 @@
 <template>
   <div class='impressum-container'>
-    <div class='impressum-heading'>Impressum</div>      
+    <div class=' impressum-heading'>Hinweis</div>      
+    <BaseParagraph style="text-align: left">
+      Erwachsene können ihre Anmerkung, Verbesserungsvorschläge und Wünsche dem Stadtbüro Friedrich-Ebert-Straße melden. <a href="stadtbuero@friedrich-ebert-strasse.net">stadtbuero@friedrich-ebert-strasse.net</a><br> oder 0561/60 285 630.
+    </BaseParagraph>
+    <div class='impressum-heading impressum-heading__top-margin'>Impressum</div>      
     <BaseParagraph style="text-align: left"> 
         Stadt Kassel -<br> Straßenverkehrs- und Tiefbauamt
         <br>Friedrichstraße 36
@@ -16,8 +20,7 @@
     <BaseParagraph style="text-align: left">
             <a target="blank" href="https://www.kassel.de/kontakt/Impressum/">Impressum</a> der Stadt Kassel
     </BaseParagraph>
-    <div class=' impressum-heading impressum-heading__top-margin'>Bei technischen Fragen:
-</div>      
+    <div class=' impressum-heading impressum-heading__top-margin'>Bei technischen Fragen:</div>
     <BaseParagraph style="text-align: left">
       <a href="mailto:it@bewirken.org">it@bewirken.org</a>
     </BaseParagraph>
@@ -31,6 +34,7 @@
     </BaseParagraph>
   </div> 
 </template>
+
 
 <script>
 

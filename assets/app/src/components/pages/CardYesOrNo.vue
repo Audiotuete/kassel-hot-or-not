@@ -33,7 +33,6 @@
       <div class='note-show-question' v-show='inputIsFocused' @click='inputIsFocused = false'><i class='sl-icon icon-arrow-up note-show-question-icon'></i></div>
       <BaseButton @click='makeNote(answerValues.NOTE, answerNote)' class='button-offset'>Senden</BaseButton>
     </div>
-
   </div>
 
 </template>

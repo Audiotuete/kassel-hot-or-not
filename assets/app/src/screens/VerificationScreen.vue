@@ -34,7 +34,6 @@ export default {
     }).then((data) => {
       setTimeout(() => this.success = data.data.verifyEmail.success, 500)
     }).catch((error) => {
-      location.reload()
       // console.error(error)
     })
   }
