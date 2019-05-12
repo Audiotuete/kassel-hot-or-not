@@ -1,6 +1,0 @@
-query checkChallenge($challengeCode: String!) {
-    checkChallenge(challengeCode: $challengeCode) {
-      context
-      challengeCode
-    } 
-  }

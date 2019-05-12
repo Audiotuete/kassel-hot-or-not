@@ -1,9 +1,0 @@
-query aProject($projectCode: String!) {
-    aProject(projectCode: $projectCode) {
-      projectName
-      projectDescription
-      projectCode
-      projectCreator
-      challenge
-    } 
-  }
