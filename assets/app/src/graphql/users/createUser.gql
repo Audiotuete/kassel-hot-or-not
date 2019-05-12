@@ -1,6 +1,8 @@
-mutation createUser($pollId: ID!) {
+mutation createUser($pollId: ID!, $browserInfo: String!, $osInfo: String!) {
     createUser(
       pollId: $pollId,
+      browserInfo: $browserInfo,
+      osInfo: $osInfo,
     ) {
       user {
         username

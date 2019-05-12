@@ -3,7 +3,7 @@
 #import './__UserAnswerOpenTypeFragment.gql'
 
 query allUserAnswers {
-    
+    #@todo add user and poll_id as variables
     allUserAnswers {
       ... UserAnswerOpenType
       ... UserAnswerMultipleType

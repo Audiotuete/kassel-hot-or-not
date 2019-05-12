@@ -46,11 +46,6 @@ function get_app_script() {
 }
 
 /**
- * Enqueues the scripts
- */
-add_action( 'wp_enqueue_scripts','enqueue_vue_app');
-
-/**
  * Enqueues the stylesheet and js
  */
 function enqueue_vue_app() {
@@ -62,3 +57,8 @@ function enqueue_vue_app() {
 	// wp_enqueue_style( 'wp-vue-styles', get_PT_Sans_Narrow_stylesheet(), array(), false, false );
 	wp_enqueue_style( 'wp-vue-styles', get_app_stylesheet(), array(), false, false );
 }
+/**
+ * Enqueues the scripts
+ */
+add_action( 'wp_enqueue_scripts','enqueue_vue_app');
+
