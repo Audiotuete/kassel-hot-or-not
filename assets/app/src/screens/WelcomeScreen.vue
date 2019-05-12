@@ -66,7 +66,7 @@ export default {
       this.$apollo.mutate({
         mutation: CREATE_USER,
         variables: {
-          pollId: 2,
+          pollId: process.env.POLL_ID,
           browserInfo: this.getBrowserInfo(),
           osInfo: navigator.platform
         }
