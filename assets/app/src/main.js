@@ -1,3 +1,5 @@
+import fetch from 'unfetch'
+
 import Vue from 'vue'
 import VeeValidate from 'vee-validate'
 
@@ -54,7 +56,7 @@ const apolloClient = new ApolloClient({
   cache: app_cache, 
   link: ApolloLink.from([
     authLink,
-    new HttpLink({uri: process.env.ROOT_API})]
+    new HttpLink({uri: process.env.ROOT_API, fetch: fetch})]
   ),
   connectToDevTools: false,
 })

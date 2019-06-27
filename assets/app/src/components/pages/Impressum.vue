@@ -1,24 +1,16 @@
 <template>
   <div class='impressum-container'>
-    <div class=' impressum-heading'>Hinweis</div>      
-    <BaseParagraph style="text-align: left">
-      Erwachsene können ihre Anmerkung, Verbesserungsvorschläge und Wünsche dem Stadtbüro Friedrich-Ebert-Straße melden. <a href="stadtbuero@friedrich-ebert-strasse.net">stadtbuero@friedrich-ebert-strasse.net</a><br> oder 0561/60 285 630.
-    </BaseParagraph>
     <div class='impressum-heading impressum-heading__top-margin'>Impressum</div>      
     <BaseParagraph style="text-align: left"> 
-        Stadt Kassel -<br> Straßenverkehrs- und Tiefbauamt
-        <br>Friedrichstraße 36
-        <br>34112 Kassel
+        beWirken -<br> Jugendbildung auf Augenhöhe gUG (haftungsbeschränkt)
+        <br>Vor dem Bardowicker Tore 15 
+        <br>21339 Lüneburg
         <br>
-        <br>Projektleitung: Wiebke Höfker
-        <br>Projekt: <a href="https://www.stadt-kassel.de/projekte/verkehr/infos/24526/">Mobilitätskonzept Vorderer Westen</a>
-
-        <br>E-Mail: <a href="mailto:wiebke.hoefker@kassel.de">wiebke.hoefker@kassel.de</a>
     </BaseParagraph>
-    <img style='width: 80%' src='https://umfrage.bewirken.org/wp-content/uploads/2019/01/Kassel_RGB_Normal.png' alt=''>
+    <img style='width: 50%; margin: 1rem 0.5rem 0.5rem 0.5rem' src='https://umfrage.bewirken.org/wp-content/uploads/2019/05/Schrift_Logo_orange_64.png' alt=''>
 
     <BaseParagraph style="text-align: left">
-            <a target="blank" href="https://www.kassel.de/kontakt/Impressum/">Impressum</a> der Stadt Kassel
+            <a target="blank" href="https://www.bewirken.org/impressum/">beWirken Impressum</a>
     </BaseParagraph>
     <div class=' impressum-heading impressum-heading__top-margin'>Bei technischen Fragen:</div>
     <BaseParagraph style="text-align: left">
@@ -26,11 +18,11 @@
     </BaseParagraph>
     <div class=' impressum-heading impressum-heading__top-margin'>Datenschutz</div>      
     <BaseParagraph style="text-align: left">
-      Alle personenbezogenen Daten der Teilnehmenden sind anonymisiert und ausschließlich zum Zwecke der Durchführung der Umfrageauswertung gespeichert und genutzt.
-      Die Teilnehmer des Gewinnspiels, können eine E-Mailadresse hinterlassen, diese sind von den Umfragedaten getrennt und werden ausschließlich zum Zwecke der Durchführung des Gewinnspiels gespeichert und genutzt. Eine unberechtigte Weitergabe an Dritte findet nicht statt. Ebenso eine Nutzung für Werbezwecke. Nach Abschluss des Projektes Mai 2019 werden die Daten der Teilnehmenden gelöscht. Jeder Teilnehmende, der am Gewinnspiel teilnimmt, hat jederzeit die Möglichkeit die Einwilligung zur Speicherung der E-Mail-Adresse oder der Teilnahme am Wettbewerb zu widerrufen. Es reicht eine formlose E-Mail an: <a href="mailto:it@bewirken.org">it@bewirken.org</a> oder an die Adresse der Stadt Kassel. 
+      <strong>Dies ist eine Testumfrage. Die Daten werden nicht ausgewertet.</strong> Exemplarischer Datenschutz:  Alle personenbezogenen Daten der Teilnehmenden sind anonymisiert und ausschließlich zum Zwecke der Durchführung der Umfrageauswertung gespeichert und genutzt.
+      Die Teilnehmer des Gewinnspiels, können eine E-Mailadresse hinterlassen, diese sind von den Umfragedaten getrennt und werden ausschließlich zum Zwecke der Durchführung des Gewinnspiels gespeichert und genutzt. Eine unberechtigte Weitergabe an Dritte findet nicht statt. Ebenso eine Nutzung für Werbezwecke. Nach Abschluss des Projektes Mai 2019 werden die Daten der Teilnehmenden gelöscht. Jeder Teilnehmende, der am Gewinnspiel teilnimmt, hat jederzeit die Möglichkeit die Einwilligung zur Speicherung der E-Mail-Adresse oder der Teilnahme am Wettbewerb zu widerrufen. Es reicht eine formlose E-Mail an: <a href="mailto:it@bewirken.org">it@bewirken.org</a>. 
       <br><br>
       Im Übrigen gelten die 
-      <a href="https://www.stadt-kassel.de/kontakt/datenschutz/">Datenschutzbedingungen der Stadt Kassel</a>.
+      <a href="https://www.bewirken.org/datenschutz/">beWirken Datenschutzbedingungen</a>.
     </BaseParagraph>
   </div> 
 </template>

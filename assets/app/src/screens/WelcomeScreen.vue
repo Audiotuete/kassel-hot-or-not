@@ -39,7 +39,7 @@ export default {
   data () {
     return {
       background: {
-        backgroundImage: 'url(' + 'https://umfrage.bewirken.org/wp-content/uploads/2019/01/Senf-5min-Badge.png' + ')'
+        backgroundImage: 'url(' + 'https://umfrage.bewirken.org/wp-content/uploads/2019/05/Testumfrage.png' + ')'
       },
       showImpressum: false
     }
